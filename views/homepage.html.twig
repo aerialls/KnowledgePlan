@@ -1,0 +1,33 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div id="chart" class="span7">
+            <p class="text">No chart before 2sec.</p>
+        </div>
+        <div class="span7">
+            <h1>Informations</h1>
+
+            <div id="informations">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="separator-controls" class="span14">
+        </div>
+    </div>
+
+    <div id="controls" class="row">
+        <div class="span3">
+            <a href="#" class="btn" id="skip-left-btn"><img src="/images/skip_left.png" alt="Skip left" /></a>
+            <a href="#" class="btn" id="play-btn"><img src="/images/play.png" alt="Play/Pause" /></a>
+            <a href="#" class="btn" id="skip-right-btn"><img src="/images/skip_right.png" alt="Skip right" /></a>
+        </div>
+        <div class="span11">
+            <div id="range-div">
+                <input type="range" id="range" min="0" max="300" value="0" />
+            </div>
+        </div>
+    </div>
+{% endblock %}
