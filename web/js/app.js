@@ -6,6 +6,31 @@ function Player()
     this.state = undefined;
 }
 
+/**
+ * Initialize the player
+ */
+Player.prototype.initialize = function()
+{
+    var _player = this;
+    $('#play-btn').click(function() {
+        _player.changeState();
+
+        return false;
+    });
+
+    var infos = simulation.informations['0'];
+
+    this.pause();
+    this.setInformations(infos);
+}
+
+Player.prototype.setInformations = function(values)
+{
+    $("#label-time").html(values['time']+' sec');
+    $('#label-accepted-flows').html(values['flows_accepted']);
+    $('#label-rejected-flows').html(values['flows_rejected']);
+}
+
 Player.prototype.play = function()
 {
     if (this.state == PLAYER_PLAY) {
@@ -38,11 +63,5 @@ Player.prototype.changeState = function()
 var player = new Player();
 
 $(document).ready(function() {
-    player.pause();
-
-    $('#play-btn').click(function() {
-        player.changeState();
-
-        return false;
-    });
+    player.initialize();
 });

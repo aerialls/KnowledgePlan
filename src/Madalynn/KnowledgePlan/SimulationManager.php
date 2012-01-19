@@ -22,14 +22,14 @@ class SimulationManager
     protected $cache;
 
     /**
-     * @var Madalynn\KnowledgePlan\Loader\LoaderInterface $loader;
+     * @var Madalynn\KnowledgePlan\SimulationBuilder $builder;
      */
-    protected $loader;
+    protected $builder;
 
-    public function __construct(CacheInterface $cache, LoaderInterface $loader)
+    public function __construct(SimulationBuilder $builder, CacheInterface $cache)
     {
         $this->cache = $cache;
-        $this->loader = $loader;
+        $this->builder = $builder;
     }
 
     /**
@@ -38,17 +38,18 @@ class SimulationManager
      * If the simulation does not exist yet in the
      * cache, the loader is call to retrieve it
      *
-     * @param string $filename The filename
+     * @param string  $filename The filename
+     * @param Boolean $force    If true, the cache won't be called
      *
      * @return Madalynn\KnowledgePlan\Simulation
      */
-    public function get($filename)
+    public function get($filename, $force = false)
     {
-        if ($this->cache->has($filename)) {
+        if (false === $force && $this->cache->has($filename)) {
             return $this->cache->get($filename);
         }
 
-        $simulation = $this->loader->load($filename);
+        $simulation = $this->builder->createSimulation($filename);
 
         // Add a new entry to the cache
         $this->cache->set($filename, $simulation);
