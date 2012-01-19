@@ -1,6 +1,6 @@
-vendor
-composer.phar
-composer.lock
+/vendor
+/composer.phar
+/composer.lock
 .DS_Store
-cache
-output
+/cache
+/output
