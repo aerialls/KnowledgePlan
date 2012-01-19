@@ -1,6 +1,8 @@
 <?php
 
 /*
+ * This file is part of the KnowledgePlan website.
+ *
  * (c) 2012 Julien Brochet <mewt@madalynn.eu>
  *
  * For the full copyright and license information, please view the LICENSE
@@ -15,5 +17,10 @@ $app['debug'] = true;
 
 // Twig
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path'       => __DIR__.'/views'
+    'twig.path' => __DIR__.'/views'
+));
+
+// Knowledge Plan
+$app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider(), array(
+    'kp.cache_folder' => __DIR__.'/cache'
 ));

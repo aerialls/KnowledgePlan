@@ -2,5 +2,11 @@
     "require": {
         "silex/silex": "*",
         "twig/twig": "1.5.1"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Madalynn": "src/"
+        }
     }
 }

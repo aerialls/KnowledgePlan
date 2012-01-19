@@ -49,15 +49,6 @@ body {
     position: relative;
 }
 
-#chart .text {
-    font-size: 25px;
-    color: #2d2d2d;
-    font-weight: bold;
-    position: absolute;
-    top: 110px;
-    left: 70px;
-}
-
 #separator-controls {
     height: 3px;
     background-color: lightgrey;

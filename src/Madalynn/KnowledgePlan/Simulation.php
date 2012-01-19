@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
-$app = require_once __DIR__.'/../Application.php';
+namespace Madalynn\KnowledgePlan;
 
-$app->run();
+class Simulation
+{
+}
