@@ -54,3 +54,48 @@ body {
     background-color: lightgrey;
     margin: 20px;
 }
+
+.slider {
+    background-color: #e6e6e6;
+    height:9px;
+    position:relative;
+    cursor:pointer;
+    width: 100%;
+    float:left;
+    clear:right;
+    margin-top:15px;
+    -moz-box-shadow:inset 0 0 8px #000;
+}
+
+.progress {
+    height:9px;
+    background-color:#C5FF00;
+    display:none;
+    opacity:0.6;
+}
+
+.handle {
+    height:23px;
+    width:23px;
+    top:-9px;
+    position:absolute;
+    display:block;
+    margin-top:1px;
+    border:1px solid #000;
+    cursor:move;
+    background-color: black;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+}
+
+.range {
+    display: none;
+}
+
+.color-red {
+    color: #cc0000;
+}
+
+.color-green {
+    color: #006e2e;
+}

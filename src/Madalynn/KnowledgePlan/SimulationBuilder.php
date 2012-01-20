@@ -46,6 +46,8 @@ class SimulationBuilder
     {
         $this->simulation = new Simulation();
         $file = new \SplFileObject($filename);
+        $lastTime = -1;
+        $step = 0;
 
         foreach($file as $line) {
             $line = str_replace(array("\r\n", "\n", "\r"), '', $line);
@@ -56,6 +58,19 @@ class SimulationBuilder
 
                 $this->addPoint($values);
                 $this->addInformations($values);
+
+                // Step between 2 events
+                if (0 === $step) {
+                    // The $step is usefull to calculate the
+                    // step just ONE time and not at every event
+                    $currentTime = $values['time'];
+                    if (-1 !== $lastTime) {
+                        $step = $currentTime - $lastTime;
+                        $this->simulation->setStep($step);
+                    }
+
+                    $lastTime = $currentTime;
+                }
             } else if (false !== strpos($line, 'Admit a new flow')) {
                 $this->flowsAccepted++;
             } else if (false !== strpos($line, 'REJECT')) {
@@ -118,6 +133,16 @@ class SimulationBuilder
         return $array;
     }
 
+    /**
+     * Add a point to the latest plot in memory
+     * If the number of points is equals to NBR_POINTS,
+     * the Simulation::addPlot is called
+     *
+     * This method is looking for the X_NAME and Y_NAME in
+     * the input array to creat a point.
+     *
+     * @param array $values The informations
+     */
     private function addPoint(array $values)
     {
         if (isset($values[self::X_NAME]) && isset($values[self::Y_NAME])) {
@@ -130,6 +155,11 @@ class SimulationBuilder
         }
     }
 
+    /**
+     * Add informations to the simulation
+     *
+     * @param array $values
+     */
     private function addInformations(array $values)
     {
         $informations = array(

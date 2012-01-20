@@ -4,6 +4,7 @@ const PLAYER_PAUSE = 1;
 function Player()
 {
     this.state = undefined;
+    this.api = undefined;
 }
 
 /**
@@ -11,17 +12,59 @@ function Player()
  */
 Player.prototype.initialize = function()
 {
+    $(":range").rangeinput({
+        min:  simulation.minTime,
+        max:  simulation.maxTime,
+        step: simulation.step
+    });
+
     var _player = this;
+    this.api = $(':range').data('rangeinput');
+
+    // (Play|Pause) button
     $('#play-btn').click(function() {
         _player.changeState();
 
         return false;
     });
 
-    var infos = simulation.informations['0'];
+    // Backward button
+    $('#backward-btn').click(function () {
+        _player.backward();
 
+        return false;
+    });
+
+    // >| Button
+    $('#forward-btn').click(function () {
+        _player.forward();
+
+        return false;
+    });
+
+    $(":range").change(function(event, value) {
+	_player.move(value);
+    });
+
+    this.backward();
+}
+
+/**
+ * Backward button
+ */
+Player.prototype.backward = function()
+{
     this.pause();
-    this.setInformations(infos);
+    this.move(simulation.minTime);
+}
+
+/**
+ * Forward button
+ */
+Player.prototype.forward = function()
+{
+    this.pause();
+    this.move(simulation.maxTime);
 }
 
 Player.prototype.setInformations = function(values)
@@ -49,6 +92,17 @@ Player.prototype.pause = function()
 
     this.state = PLAYER_PAUSE;
     $('#play-btn > img').attr({src: '/images/play.png'});
+}
+
+Player.prototype.move = function(time)
+{
+    if (time in simulation.informations) {
+        this.setInformations(simulation.informations[time]);
+    } else {
+        console.log('Unable to find informations for the time ' + time);
+    }
+
+    this.api.setValue(time);
 }
 
 Player.prototype.changeState = function()

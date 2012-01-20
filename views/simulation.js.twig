@@ -1,4 +1,15 @@
 {# This file represents the simulation #}
+
 var simulation = new Object();
 
-simulation.informations = {{ simulation.informations|json_encode|raw }}
+// Step
+simulation.step = {{ simulation.step }};
+
+// The time for the first entry
+simulation.minTime = {{ simulation.minTime }};
+
+// The time for the last entry
+simulation.maxTime = {{ simulation.maxTime }};
+
+// Informations
+simulation.informations = {{ simulation.informations|json_encode|raw }};

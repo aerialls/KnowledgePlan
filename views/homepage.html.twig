@@ -1,35 +1,73 @@
-{% extends 'layout.html.twig' %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Knowledge Plan</title>
+        <meta name="description" content="">
+        <meta name="author" content="Julien Brochet">
 
-{% block content %}
-    <div class="row">
-        <div id="chart" class="span7">
-        </div>
-        <div class="span7">
-            <h1>Informations</h1>
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
 
-            <div id="informations">
-                <p><strong>Time:</strong> <span id="label-time"></span></p>
-                <p><strong>Accepted flows:</strong> <span id="label-accepted-flows"></span></p>
-                <p><strong>Rejected flows:</strong> <span id="label-rejected-flows"></span></p>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdn.jquerytools.org/1.2.6/form/jquery.tools.min.js"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="/js/simulation.js"></script>
+        <script type="text/javascript" src="/js/app.js"></script>
+
+        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/layout.css">
+
+        <link rel="shortcut icon" href="/favicon.ico">
+    </head>
+    <body>
+        <div class="topbar">
+            <div class="fill">
+                <div class="container">
+                    <a class="brand" href="#">Knowledge Plan</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div id="separator-controls" class="span14">
-        </div>
-    </div>
+        <div class="container">
+            <div class="content">
+                <div class="row">
+                    <div id="chart" class="span7">
+                    </div>
+                    <div class="span7">
+                        <h1>Informations</h1>
 
-    <div id="controls" class="row">
-        <div class="span3">
-            <a href="#" class="btn" id="skip-left-btn"><img src="/images/skip_left.png" alt="Skip left" /></a>
-            <a href="#" class="btn" id="play-btn"><img src="/images/play.png" alt="Play/Pause" /></a>
-            <a href="#" class="btn" id="skip-right-btn"><img src="/images/skip_right.png" alt="Skip right" /></a>
-        </div>
-        <div class="span11">
-            <div id="range-div">
-                <input type="range" id="range" min="0" max="300" value="0" />
+                        <div id="informations">
+                            <p><strong>Time:</strong> <span id="label-time"></span></p>
+                            <p><strong>Accepted flows:</strong> <span id="label-accepted-flows" class="color-green"></span></p>
+                            <p><strong>Rejected flows:</strong> <span id="label-rejected-flows" class="color-red"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div id="separator-controls" class="span14">
+                    </div>
+                </div>
+
+                <div id="controls" class="row">
+                    <div class="span3">
+                        <a href="#" class="btn" id="backward-btn"><img src="/images/skip_left.png" alt="Skip left" /></a>
+                        <a href="#" class="btn" id="play-btn"><img src="/images/play.png" alt="Play/Pause" /></a>
+                        <a href="#" class="btn" id="forward-btn"><img src="/images/skip_right.png" alt="Skip right" /></a>
+                    </div>
+                    <div class="span11">
+                        <div id="range-div">
+                            <input type="range" id="range" />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-{% endblock %}
+
+            <footer>
+                <p>&copy; {{ 'now'|date('Y') }} Julien Brochet</p>
+            </footer>
+        </div> <!-- /container -->
+    </body>
+</html>
