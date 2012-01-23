@@ -4,7 +4,10 @@ const PLAYER_PAUSE = 1;
 function Player()
 {
     this.state = undefined;
-    this.api = undefined;
+    this.api   = undefined;
+
+    this.plotOptions = {
+    };
 }
 
 /**
@@ -67,6 +70,9 @@ Player.prototype.forward = function()
     this.move(simulation.maxTime);
 }
 
+/**
+ * Displays informations in the table next to the plot
+ */
 Player.prototype.displayInformations = function(values)
 {
     var time = values['time'];
@@ -78,6 +84,14 @@ Player.prototype.displayInformations = function(values)
     $("#label-time").html(time + ' sec');
     $('#label-accepted-flows').html(values['flows_accepted']);
     $('#label-rejected-flows').html(values['flows_rejected']);
+}
+
+/**
+ * Displays the plot
+ */
+Player.prototype.displayPlot = function(values)
+{
+    $.plot($("#chart"), values, this.plotOptions);
 }
 
 Player.prototype.play = function()
@@ -139,10 +153,16 @@ Player.prototype.pause = function()
  */
 Player.prototype.move = function(time)
 {
+    // Informations
     if (time in simulation.informations) {
         this.displayInformations(simulation.informations[time]);
     } else {
-        console.log('Unable to find informations for the time ' + time);
+        console.warn('Unable to find informations for the time ' + time);
+    }
+
+    // Plots
+    if (time in simulation.plots) {
+        this.displayPlot(simulation.plots[time]);
     }
 
     this.api.setValue(time);

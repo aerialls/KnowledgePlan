@@ -11,5 +11,8 @@ simulation.minTime = {{ simulation.minTime }};
 // The time for the last entry
 simulation.maxTime = {{ simulation.maxTime }};
 
+// Plots
+simulation.plots = {{ simulation.plots|json_encode|raw }};
+
 // Informations
 simulation.informations = {{ simulation.informations|json_encode|raw }};

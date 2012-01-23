@@ -45,7 +45,6 @@ body {
 #chart {
     width: 400px;
     height: 250px;
-    background-image: url('/images/stripe.png');
     position: relative;
 }
 

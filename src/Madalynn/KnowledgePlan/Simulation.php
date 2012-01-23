@@ -69,6 +69,11 @@ class Simulation
         return $this->informations;
     }
 
+    public function getPlots()
+    {
+        return $this->plots;
+    }
+
     public function setStep($step)
     {
         $this->step = $step;
