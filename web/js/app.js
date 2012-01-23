@@ -35,7 +35,7 @@ Player.prototype.initialize = function()
         return false;
     });
 
-    // >| Button
+    // Forward button
     $('#forward-btn').click(function () {
         _player.forward();
 
@@ -69,7 +69,13 @@ Player.prototype.forward = function()
 
 Player.prototype.displayInformations = function(values)
 {
-    $("#label-time").html(values['time']+' sec');
+    var time = values['time'];
+
+    if (time.indexOf('.') == -1) {
+        time = time + '.0';
+    }
+
+    $("#label-time").html(time + ' sec');
     $('#label-accepted-flows').html(values['flows_accepted']);
     $('#label-rejected-flows').html(values['flows_rejected']);
 }
@@ -82,6 +88,40 @@ Player.prototype.play = function()
 
     this.state = PLAYER_PLAY;
     $('#play-btn > img').attr({src: '/images/pause.png'});
+
+    // Start the loop
+    console.log('Starting the loop');
+    this.loop();
+}
+
+/**
+ * Do a movement of the player
+ */
+Player.prototype.loop = function()
+{
+    if (this.state != PLAYER_PLAY) {
+        console.log('The player is turn off. Stoping the loop');
+        return;
+    }
+
+    if (this.getPosition() >= simulation.maxTime) {
+        console.log('End of the simulation');
+        this.pause();
+        return;
+    }
+
+    // We need a Math.round here because Javascript can't add
+    // float exactly. And we need the exact number (2.1 and not
+    // 2.1000000000001 ) for the map (simulation.informations)
+    var nextStep = Math.round((this.getPosition() + simulation.step) * 10) / 10;
+
+    this.move(nextStep);
+
+    // Do again...
+    var _player = this;
+    setTimeout(function() {
+        _player.loop();
+    }, 100);
 }
 
 Player.prototype.pause = function()
