@@ -67,7 +67,7 @@ Player.prototype.forward = function()
     this.move(simulation.maxTime);
 }
 
-Player.prototype.setInformations = function(values)
+Player.prototype.displayInformations = function(values)
 {
     $("#label-time").html(values['time']+' sec');
     $('#label-accepted-flows').html(values['flows_accepted']);
@@ -100,7 +100,7 @@ Player.prototype.pause = function()
 Player.prototype.move = function(time)
 {
     if (time in simulation.informations) {
-        this.setInformations(simulation.informations[time]);
+        this.displayInformations(simulation.informations[time]);
     } else {
         console.log('Unable to find informations for the time ' + time);
     }
