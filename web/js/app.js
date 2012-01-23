@@ -94,6 +94,9 @@ Player.prototype.pause = function()
     $('#play-btn > img').attr({src: '/images/play.png'});
 }
 
+/**
+ * Moves the player to the specified time
+ */
 Player.prototype.move = function(time)
 {
     if (time in simulation.informations) {
@@ -105,6 +108,11 @@ Player.prototype.move = function(time)
     this.api.setValue(time);
 }
 
+/**
+ * Change the state of the player.
+ * If the player is paused then the player is turned on
+ * And vice versa
+ */
 Player.prototype.changeState = function()
 {
     if (this.state == PLAYER_PAUSE) {
@@ -112,6 +120,14 @@ Player.prototype.changeState = function()
     } else {
         this.pause();
     }
+}
+
+/**
+ * Returns the position of the player
+ */
+Player.prototype.getPosition = function()
+{
+    return this.api.getValue();
 }
 
 var player = new Player();
