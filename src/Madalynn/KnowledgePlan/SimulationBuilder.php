@@ -38,13 +38,18 @@ class SimulationBuilder
      */
     protected $points = array();
 
-    protected $flowsAccepted = 0;
+    protected $flowsAccepted;
 
-    protected $flowsRejected = 0;
+    protected $flowsRejected;
 
     public function createSimulation($filename)
     {
+        // Reset
+        $this->flowsAccepted = 0;
+        $this->flowsRejected = 0;
+        $this->points = array();
         $this->simulation = new Simulation();
+
         $file = new \SplFileObject($filename);
         $lastTime = -1;
         $step = 0;
@@ -78,6 +83,9 @@ class SimulationBuilder
                 $this->flowsAccepted--;
             }
         }
+
+        // Add an empty plot at the start
+        $this->addPlot($this->simulation->getMinTime());
 
         return $this->simulation;
     }
@@ -153,21 +161,21 @@ class SimulationBuilder
         }
 
         if (self::NBR_POINTS === count($this->points)) {
-            $this->addCurrentPlot($values['time']);
+            $this->addPlot($values['time'], $this->points);
             $this->points = array();
         }
     }
 
     /**
-     * Add the current plot to the simulation
+     * Add a plot to the simulation
      *
      * @param string $time
      */
-    private function addCurrentPlot($time)
+    private function addPlot($time, array $points = array())
     {
         $informations = array(
             'time'    => $time,
-            'points'  => $this->points,
+            'points'  => $points,
             'label_x' => $this->reverseUnderscore(self::X_NAME),
             'label_y' => $this->reverseUnderscore(self::Y_NAME)
         );
