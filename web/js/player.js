@@ -212,6 +212,9 @@ Player.prototype.searchPreviousPlot = function(time)
         currentTime = Math.round((currentTime - simulation.step) * 10) / 10;
     }
 
+    // Humm... we can't be here
+    console.warn('Unable to find the previous plot for time ' + time);
+
     return null;
 }
 
