@@ -5,9 +5,6 @@ function Player()
 {
     this.state = undefined;
     this.api   = undefined;
-
-    this.plotOptions = {
-    };
 }
 
 /**
@@ -91,7 +88,14 @@ Player.prototype.displayInformations = function(values)
  */
 Player.prototype.displayPlot = function(values)
 {
-    $.plot($("#chart"), values, this.plotOptions);
+    $.plot($("#chart"), [
+        {
+            data: values,
+            points: { show: true }
+        }
+    ],{
+        grid: { hoverable: true }
+    });
 }
 
 Player.prototype.play = function()
