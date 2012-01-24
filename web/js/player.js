@@ -240,5 +240,23 @@ Player.prototype.getPosition = function()
 var player = new Player();
 
 $(document).ready(function() {
-    player.initialize();
+    // Get the simulation (ajax loading)
+    $(document).ajaxError(function(e, jqxhr, settings, exception) {
+        if (settings.dataType == 'script') {
+            alert('Unable to load the simulation.');
+            $.unblockUI();
+        }
+    });
+
+    $(document).ajaxStart(function() {
+        $.blockUI({ message: '<div id="loading"><img src="/images/ajax-loader.gif"/> Loading...</div>' });
+    });
+
+    $(document).ajaxStop(function() {
+        $.unblockUI();
+    });
+
+    $.getScript('/js/simulation.js', function(data, textStatus){
+        player.initialize();
+    });
 });
