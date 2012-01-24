@@ -3,8 +3,9 @@ const PLAYER_PAUSE = 1;
 
 function Player()
 {
-    this.state = undefined;
-    this.api   = undefined;
+    this.state    = undefined;
+    this.api      = undefined;
+    this.timePlot = undefined;
 }
 
 /**
@@ -88,6 +89,13 @@ Player.prototype.displayInformations = function(values)
  */
 Player.prototype.displayPlot = function(values)
 {
+    if (values['time'] == this.timePlot) {
+        // We don't need to draw the same plot
+        return;
+    }
+
+    this.timePlot = values['time'];
+
     $.plot($("#chart"), [
         {
             data: values['points'],
@@ -169,9 +177,39 @@ Player.prototype.move = function(time)
     // Plots
     if (time in simulation.plots) {
         this.displayPlot(simulation.plots[time]);
+    } else {
+        // We need to seach the last plot in the list
+        var plot = this.searchPreviousPlot(time);
+        if (plot != null) {
+            this.displayPlot(plot);
+        } else {
+            // No chart to display yet
+            // So we erase the last one
+            $('#chart').html('');
+        }
     }
 
     this.api.setValue(time);
+}
+
+/**
+ * Search the previous plot for a given time
+ */
+Player.prototype.searchPreviousPlot = function(time)
+{
+    var currentTime = time - simulation.step;
+
+    // Search for a previous plot
+    while (currentTime >= simulation.minTime) {
+        // Does the plot exist?
+        if (currentTime in simulation.plots) {
+            return simulation.plots[currentTime];
+        }
+
+        currentTime = Math.round((currentTime - simulation.step) * 10) / 10;
+    }
+
+    return null;
 }
 
 /**

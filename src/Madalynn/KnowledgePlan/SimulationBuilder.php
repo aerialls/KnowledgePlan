@@ -166,6 +166,7 @@ class SimulationBuilder
     private function addCurrentPlot($time)
     {
         $informations = array(
+            'time'    => $time,
             'points'  => $this->points,
             'label_x' => $this->reverseUnderscore(self::X_NAME),
             'label_y' => $this->reverseUnderscore(self::Y_NAME)
