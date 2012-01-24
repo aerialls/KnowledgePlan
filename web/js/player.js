@@ -82,6 +82,9 @@ Player.prototype.displayInformations = function(values)
     $("#label-time").html(time + ' sec');
     $('#label-accepted-flows').html(values['flows_accepted']);
     $('#label-rejected-flows').html(values['flows_rejected']);
+    $('#label-waiting-time').html(values['waiting_time'] + ' ns');
+    $('#label-loss').html(values['loss']);
+    $('#label-utilization').html(values['utilization']);
 }
 
 /**

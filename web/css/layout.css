@@ -98,3 +98,7 @@ body {
 .color-green {
     color: #006e2e;
 }
+
+#informations td {
+    width: 60%;
+}
