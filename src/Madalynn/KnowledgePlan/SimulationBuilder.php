@@ -126,8 +126,11 @@ class SimulationBuilder
 
         // Modification for the waiting time...
         if (isset($array['waiting_time'])) {
-            list($sec) = explode(' (ms)', $array['waiting_time']);
-            $array['waiting_time'] = $sec;
+            $list = explode(' ', $array['waiting_time']);
+            // The ns time is alway the last element in the waiting
+            // time part
+            $time = $list[count($list) - 1];
+            $array['waiting_time'] = substr($time, 0, count($time) - 3);
         }
 
         return $array;
@@ -150,9 +153,30 @@ class SimulationBuilder
         }
 
         if (self::NBR_POINTS === count($this->points)) {
-            $this->simulation->addPlot($values['time'], $this->points);
+            $this->addCurrentPlot($values['time']);
             $this->points = array();
         }
+    }
+
+    /**
+     * Add the current plot to the simulation
+     *
+     * @param string $time
+     */
+    private function addCurrentPlot($time)
+    {
+        $informations = array(
+            'points'  => $this->points,
+            'label_x' => $this->reverseUnderscore(self::X_NAME),
+            'label_y' => $this->reverseUnderscore(self::Y_NAME)
+        );
+
+        $this->simulation->addPlot($time, $informations);
+    }
+
+    private function reverseUnderscore($text)
+    {
+        return ucfirst(str_replace('_', ' ', $text));
     }
 
     /**

@@ -90,11 +90,13 @@ Player.prototype.displayPlot = function(values)
 {
     $.plot($("#chart"), [
         {
-            data: values,
+            data: values['points'],
             points: { show: true }
         }
     ],{
-        grid: { hoverable: true }
+        grid: { hoverable: true },
+        xaxis: { label: values['label_x'] },
+        yaxis: { label: values['label_y'] }
     });
 }
 

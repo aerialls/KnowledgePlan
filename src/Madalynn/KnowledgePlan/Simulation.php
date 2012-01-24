@@ -59,9 +59,9 @@ class Simulation
         $this->maxTime = max($time, $this->maxTime);
     }
 
-    public function addPlot($time, array $points)
+    public function addPlot($time, array $informations)
     {
-        $this->plots[strval($time)] = $points;
+        $this->plots[strval($time)] = $informations;
     }
 
     public function getInformations()
