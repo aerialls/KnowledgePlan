@@ -102,15 +102,18 @@ Player.prototype.displayPlot = function(values)
     $.plot($("#chart"), [
         {
             data: values['points'],
-            points: { show: true }
+            points: { show: true },
+            color: '#ffd658'
         },
         {
             data: values['centroids'],
-            points: { show: true }
+            points: { show: true },
+            color: 8
         },
         {
             data: values['hlm'],
-            lines: { show: true }
+            lines: { show: true },
+            color: 7
         }
     ],{
         grid: { hoverable: true },
