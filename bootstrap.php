@@ -23,5 +23,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 // Knowledge Plan
 $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider(), array(
     'kp.cache_folder' => __DIR__.'/cache',
-    'kp.output_file'  => __DIR__.'/output'
+    'kp.output_file'  => __DIR__.'/output',
+    'kp.plot_options' => array()
 ));

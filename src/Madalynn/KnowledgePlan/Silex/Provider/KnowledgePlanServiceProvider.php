@@ -22,12 +22,14 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        $plotOptions = (isset($app['kp.plot_options'])) ? $app['kp.plot_options'] : array();
+
         $app['kp.simulation_manager'] = $app->share(function() use ($app) {
             return new SimulationManager($app['kp.simulation_builder'], new FilesystemCache($app['kp.cache_folder']));
         });
 
-        $app['kp.simulation_builder'] = $app->share(function() {
-            return new SimulationBuilder();
+        $app['kp.simulation_builder'] = $app->share(function() use ($plotOptions) {
+            return new SimulationBuilder($plotOptions);
         });
 
         $app['kp.simulation'] = $app->share(function() use ($app) {
