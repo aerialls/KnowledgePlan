@@ -128,7 +128,13 @@ class SimulationBuilder
         }
 
         // Add an empty plot at the start
-        //$this->addPlot($this->simulation->getMinTime());
+        $minTime = $this->simulation->getMinTime();
+        $this->simulation->addPlot($minTime, array(
+            'time'      => $minTime,
+            'points'    => array(),
+            'centroids' => array(),
+            'hlm'       => array()
+        ));
 
         return $this->simulation;
     }
