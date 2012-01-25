@@ -14,19 +14,11 @@ namespace Madalynn\KnowledgePlan;
 class SimulationBuilder
 {
     /**
-     * The number of points for a plot
+     * Options for the plot (like axis..)
+     *
+     * @var array $plotOptions
      */
-    const NBR_POINTS = 25;
-
-    /**
-     * The name of the option for the X axe for the plot
-     */
-    const X_NAME = 'utilization';
-
-    /**
-     * The name of the option for the Y axe for the plot
-     */
-    const Y_NAME = 'waiting_time';
+    protected $plotOptions;
 
     /**
      * @var Madalynn\KnowledgePlan\Simulation $simulation
@@ -38,17 +30,58 @@ class SimulationBuilder
      */
     protected $points = array();
 
+    /**
+     * @var array $centroids
+     */
+    protected $centroids = array();
+
+    /**
+     * @var array $hlm
+     */
+    protected $hlm = array();
+
+    protected $currentTime;
+
     protected $flowsAccepted;
 
     protected $flowsRejected;
 
-    public function createSimulation($filename)
+    /**
+     * Constructor
+     *
+     * @param array $plotOptions The options for the plot
+     */
+    public function __construct(array $plotOptions = array())
     {
-        // Reset
+        $defaultPlotOptions = array(
+            'x_name' => 'outputrate',
+            'x_min'  => 0,
+            'x_max'  => 6,
+            'y_name' => 'delay',
+            'y_min'  => 0,
+            'y_max'  => 50,
+        );
+
+        $this->plotOptions = array_merge($defaultPlotOptions, $plotOptions);
+    }
+
+    private function reset()
+    {
         $this->flowsAccepted = 0;
         $this->flowsRejected = 0;
-        $this->points = array();
+        $this->currentTime   = 0;
+
+        $this->points    = array();
+        $this->centroids = array();
+        $this->hlm       = array();
+
         $this->simulation = new Simulation();
+        $this->simulation->setPlotOptions($this->plotOptions);
+    }
+
+    public function createSimulation($filename)
+    {
+        $this->reset();
 
         $file = new \SplFileObject($filename);
         $lastTime = -1;
@@ -59,7 +92,9 @@ class SimulationBuilder
 
             // New event
             if ('at' === substr($line, 0, 2) && false === strpos($line, 'FLOW ID')) {
-                $values = $this->explodeLine($line);
+                $values = $this->explodeInformationsLine($line);
+
+                $this->currentTime = $values['time'];
 
                 $this->addPoint($values);
                 $this->addInformations($values);
@@ -76,23 +111,71 @@ class SimulationBuilder
 
                     $lastTime = $currentTime;
                 }
-            } else if (false !== strpos($line, 'Admit a new flow')) {
+            } elseif (0 === strpos($line, 'KmeansCentroids')) {
+                // Centroids points
+                $this->centroids = $this->explodePointsLine($line);
+            } elseif (0 === strpos($line, 'QUEUE_HLM')) {
+                // Queue HLM
+                $this->hlm = $this->explodePointsLine($line);
+                // We have all the informations needed to create
+                // the next plot for the simulation
+                $this->addCurrentPlot();
+            } elseif (false !== strpos($line, 'ACCEPT')) {
                 $this->flowsAccepted++;
-            } else if (false !== strpos($line, 'REJECT')) {
+            } elseif (false !== strpos($line, 'REJECT')) {
                 $this->flowsRejected++;
-                $this->flowsAccepted--;
             }
         }
 
         // Add an empty plot at the start
-        $this->addPlot($this->simulation->getMinTime());
+        //$this->addPlot($this->simulation->getMinTime());
 
         return $this->simulation;
     }
 
     /**
-     * Explode a line from the file to an array
+     * Explode a line from the line to an array of data
+     *
+     * Example:
+     *
+     * QUEUE_HLM [0.507101 1.06674 6.95322e-310] [0.517432 1.07231 6.95322e-310]
+     * [0.539682 1.08442 6.95322e-310] [0.729238 1.1934 6.95322e-310]
+     * [0.747203 1.2043 6.95322e-310]
+     *
+     * @param string $line The line
+     *
+     * @return array
+     */
+    private function explodePointsLine($line)
+    {
+        $numberRegex = '[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?';
+        $regex = sprintf('/\[(%s) (%1$s) (%1$s)\]/', $numberRegex);
+
+        $matches = array();
+        if (0 === preg_match_all($regex, $line, $matches, PREG_SET_ORDER)) {
+            return array();
+        }
+
+        $values = array();
+        foreach ($matches as $match) {
+            $values[] = array($match[1], $match[3]);
+        }
+
+        return $values;
+    }
+
+    /**
+     * Explode an informations line from the file to an array
      * of data
+     *
+     * Example:
+     *
+     * at 30.2QUEUE [0, 1] Utilization = 0.658304 Arrivals Rate = 5171101bps
+     * std_Arrivals = 5338070bps ar_[2831589, 7510613] Peak Rate = 5171101bps
+     * Waiting Time = 8 (ms) 8034470ns std_W_T = 0ns wt_[8034470ns, 8034470ns]
+     * Service Time = 651813ns Loss = 0 Link State = G Mean_inter_arrivals_time
+     * = 979879ns cv_inter_arrivals_time = 1.04204 OutputRate = 1.00996
+     * Delay = 8.68628
      *
      * @param string $line The line
      *
@@ -111,7 +194,7 @@ class SimulationBuilder
      *   cv_inter_arrivals_time
      * )
      */
-    private function explodeLine($line)
+    private function explodeInformationsLine($line)
     {
         $values = explode("\t", $line);
 
@@ -146,41 +229,40 @@ class SimulationBuilder
 
     /**
      * Add a point to the latest plot in memory
-     * If the number of points is equals to NBR_POINTS,
-     * the Simulation::addPlot is called
-     *
-     * This method is looking for the X_NAME and Y_NAME in
-     * the input array to creat a point.
      *
      * @param array $values The informations
      */
     private function addPoint(array $values)
     {
-        if (isset($values[self::X_NAME]) && isset($values[self::Y_NAME])) {
-            $this->points[] = array($values[self::X_NAME], $values[self::Y_NAME]);
-        }
+        $x = $this->plotOptions['x_name'];
+        $y = $this->plotOptions['y_name'];
 
-        if (self::NBR_POINTS === count($this->points)) {
-            $this->addPlot($values['time'], $this->points);
-            $this->points = array();
+        if (isset($values[$x]) && isset($values[$y])) {
+            $this->points[] = array($values[$x], $values[$y]);
         }
     }
 
     /**
-     * Add a plot to the simulation
-     *
-     * @param string $time
+     * Add the current plot to the simulation
      */
-    private function addPlot($time, array $points = array())
+    private function addCurrentPlot()
     {
+        if (0 === count($this->centroids) || 0 === count($this->hlm)) {
+            throw new \RuntimeException('Unable to create a new plot if "centroids" or "hlm" are empty.');
+        }
+
         $informations = array(
-            'time'    => $time,
-            'points'  => $points,
-            'label_x' => $this->reverseUnderscore(self::X_NAME),
-            'label_y' => $this->reverseUnderscore(self::Y_NAME)
+            'time'      => $this->currentTime,
+            'points'    => $this->points,
+            'centroids' => $this->centroids,
+            'hlm'       => $this->hlm
         );
 
-        $this->simulation->addPlot($time, $informations);
+        $this->simulation->addPlot($this->currentTime, $informations);
+
+        $this->points    = array();
+        $this->centroids = array();
+        $this->hlm       = array();
     }
 
     private function reverseUnderscore($text)
@@ -196,11 +278,6 @@ class SimulationBuilder
     private function addInformations(array $values)
     {
         $informations = array(
-            'time'           => null,
-            'utilization'    => null,
-            'peak_rate'      => null,
-            'waiting_time'   => null,
-            'loss'           => null,
             'flows_accepted' => $this->flowsAccepted,
             'flows_rejected' => $this->flowsRejected
         );

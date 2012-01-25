@@ -103,11 +103,19 @@ Player.prototype.displayPlot = function(values)
         {
             data: values['points'],
             points: { show: true }
+        },
+        {
+            data: values['centroids'],
+            points: { show: true }
+        },
+        {
+            data: values['hlm'],
+            lines: { show: true }
         }
     ],{
         grid: { hoverable: true },
-        xaxis: { label: values['label_x'] },
-        yaxis: { label: values['label_y'] }
+        xaxis: { min: simulation.plotOptions['x_min'], max: simulation.plotOptions['x_max'] },
+        yaxis: { min: simulation.plotOptions['y_min'], max: simulation.plotOptions['y_max'] }
     });
 }
 

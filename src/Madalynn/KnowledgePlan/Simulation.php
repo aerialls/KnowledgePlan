@@ -24,6 +24,13 @@ class Simulation
     protected $plots;
 
     /**
+     * The options for all the plots
+     *
+     * @var array $plotOptions
+     */
+    protected $plotOptions;
+
+    /**
      * The step (in sec)
      *
      * @var mixed $step
@@ -42,6 +49,7 @@ class Simulation
 
     public function __construct()
     {
+        $this->plotOptions = array();
         $this->informations = array();
         $this->plots = array();
 
@@ -84,6 +92,16 @@ class Simulation
         return $this->step;
     }
 
+    public function setPlotOptions(array $options)
+    {
+        $this->plotOptions = $options;
+    }
+
+    public function getPlotOptions()
+    {
+        return $this->plotOptions;
+    }
+
     /**
      * Returns the min time in the simulation
      */
@@ -109,6 +127,7 @@ class Simulation
         $simulation->minTime = $data['minTime'];
         $simulation->maxTime = $data['maxTime'];
         $simulation->step = $data['step'];
+        $simulation->plotOptions = $data['plotOptions'];
 
         return $simulation;
     }
