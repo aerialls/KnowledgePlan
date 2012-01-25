@@ -83,8 +83,8 @@ Player.prototype.displayInformations = function(values)
     $('#label-accepted-flows').html(values['flows_accepted']);
     $('#label-rejected-flows').html(values['flows_rejected']);
     $('#label-waiting-time').html(values['waiting_time'] + ' ns');
-    $('#label-loss').html(values['loss']);
-    $('#label-utilization').html(values['utilization']);
+    $('#label-outputrate').html(values['outputrate']);
+    $('#label-delay').html(values['delay']);
 }
 
 /**
