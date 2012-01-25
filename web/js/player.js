@@ -47,6 +47,12 @@ Player.prototype.initialize = function()
 	_player.move(value);
     });
 
+    $(document).keypress(function(event) {
+        if (event.which == 32) {
+            _player.changeState();
+        }
+    });
+
     this.backward();
 }
 
