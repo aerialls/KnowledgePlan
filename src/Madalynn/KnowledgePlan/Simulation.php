@@ -69,6 +69,11 @@ class Simulation
 
     public function addPlot($time, array $informations)
     {
+        // Added the time to the informations
+        $informations = array_merge(array(
+            'time' => $time
+        ), $informations);
+
         $this->plots[strval($time)] = $informations;
     }
 
