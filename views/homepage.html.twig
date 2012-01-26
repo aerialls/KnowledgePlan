@@ -1,98 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Knowledge Plan</title>
-        <meta name="description" content="">
-        <meta name="author" content="Julien Brochet">
+{% extends 'layout.html.twig' %}
 
-        <!--[if lt IE 9]>
-        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <script type="text/javascript" src="/js/flot/excanvas.min.js"></script>
-        <![endif]-->
+{% block javascripts %}
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.tools.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.blockui.js"></script>
+    <script type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="/js/flot/jquery.flot.axislabels.js"></script>
+    <script type="text/javascript" src="/js/player.js"></script>
+{% endblock %}
 
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script type="text/javascript" src="/js/jquery.tools.min.js"></script>
-        <script type="text/javascript" src="/js/jquery.blockui.js"></script>
-        <script type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
-        <script type="text/javascript" src="/js/flot/jquery.flot.axislabels.js"></script>
-        <script type="text/javascript" src="/js/player.js"></script>
+{% block content %}
+    <div class="row">
+        <div id="chart" class="span7">
+        </div>
+        <div class="span7">
+            <table id="informations" class="zebra-striped">
+                <tbody>
+                    <tr>
+                        <td><strong>Time</strong></td>
+                        <td><span id="label-time"></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Accepted flows</strong></td>
+                        <td><span id="label-accepted-flows" class="color-green"></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rejected flows</strong></td>
+                        <td><span id="label-rejected-flows" class="color-red"></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Waiting time</strong></td>
+                        <td><span id="label-waiting-time"></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Output rate</strong></td>
+                        <td><span id="label-outputrate"></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Output rate (average)</strong></td>
+                        <td><span id="label-outputrate-average"></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Delay</strong></td>
+                        <td><span id="label-delay"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/layout.css">
-    </head>
-    <body>
-        <div class="topbar">
-            <div class="fill">
-                <div class="container">
-                    <a class="brand" href="#">Knowledge Plan</a>
-                </div>
+    <div class="row">
+        <div id="separator-controls" class="span14">
+        </div>
+    </div>
+
+    <div id="controls" class="row">
+        <div class="span3">
+            <a href="#" class="btn" id="backward-btn"><img src="/images/skip_left.png" alt="Skip left" /></a>
+            <a href="#" class="btn" id="play-btn"><img src="/images/play.png" alt="Play/Pause" /></a>
+            <a href="#" class="btn" id="forward-btn"><img src="/images/skip_right.png" alt="Skip right" /></a>
+        </div>
+        <div class="span11">
+            <div id="range-div">
+                <input type="range" id="range" />
             </div>
         </div>
-
-        <div class="container">
-            <div class="content">
-                <div class="row">
-                    <div id="chart" class="span7">
-                    </div>
-                    <div class="span7">
-                        <table id="informations" class="zebra-striped">
-                            <tbody>
-                                <tr>
-                                    <td><strong>Time</strong></td>
-                                    <td><span id="label-time"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Accepted flows</strong></td>
-                                    <td><span id="label-accepted-flows" class="color-green"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Rejected flows</strong></td>
-                                    <td><span id="label-rejected-flows" class="color-red"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Waiting time</strong></td>
-                                    <td><span id="label-waiting-time"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Output rate</strong></td>
-                                    <td><span id="label-outputrate"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Output rate (average)</strong></td>
-                                    <td><span id="label-outputrate-average"></span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Delay</strong></td>
-                                    <td><span id="label-delay"></span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div id="separator-controls" class="span14">
-                    </div>
-                </div>
-
-                <div id="controls" class="row">
-                    <div class="span3">
-                        <a href="#" class="btn" id="backward-btn"><img src="/images/skip_left.png" alt="Skip left" /></a>
-                        <a href="#" class="btn" id="play-btn"><img src="/images/play.png" alt="Play/Pause" /></a>
-                        <a href="#" class="btn" id="forward-btn"><img src="/images/skip_right.png" alt="Skip right" /></a>
-                    </div>
-                    <div class="span11">
-                        <div id="range-div">
-                            <input type="range" id="range" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <footer>
-                <p>&copy; {{ 'now'|date('Y') }} Julien Brochet</p>
-            </footer>
-        </div> <!-- /container -->
-    </body>
-</html>
+    </div>
+{% endblock %}

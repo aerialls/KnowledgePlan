@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Knowledge Plan</title>
+        <meta name="description" content="">
+        <meta name="author" content="Julien Brochet">
+
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <script type="text/javascript" src="/js/flot/excanvas.min.js"></script>
+        <![endif]-->
+
+        {% block javascripts %}{% endblock %}
+
+        <link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/layout.css">
+    </head>
+    <body>
+        <div class="topbar">
+            <div class="fill">
+                <div class="container">
+                    <a class="brand" href="#">Knowledge Plan</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+
+            <footer>
+                <p>&copy; {{ 'now'|date('Y') }} Julien Brochet</p>
+            </footer>
+        </div> <!-- /container -->
+    </body>
+</html>
