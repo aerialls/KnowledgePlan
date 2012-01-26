@@ -13,7 +13,7 @@ This script will download the dependencies in the `vendor` folder. For more
 informations about Composer (the software to resolve these dependencies, see
 https://github.com/composer/composer)
 
-### Apache Virtualhost
+### Apache VirtualHost
 
 The website needs a virtualhost pointing to the `web` folder. For instance:
 
@@ -36,9 +36,10 @@ All the configuration is done in the `bootstrap.php` with the
 ```
 // Knowledge Plan
 $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider(), array(
-    'kp.cache_folder' => __DIR__.'/cache',  // The folder to store the cache files
-    'kp.output_file'  => __DIR__.'/output', // The simulation file
-    'kp.plot_options' => array(             // Several options for the plot
+    'kp.force_fresh'  => false,
+    'kp.cache_folder' => __DIR__.'/cache',
+    'kp.output_file'  => __DIR__.'/output',
+    'kp.plot_options' => array(
         'x_min'  => 0,
         'x_max'  => 10,
         'y_min'  => 0,
@@ -48,3 +49,16 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
     )
 ));
 ```
+* __kp.cache_folder__: The folder to store simulation files
+* __kp.outut_file__: The output file (e.g The simulation)
+* __kp.force_fresh__: By default, the simulation is store in the cache to speed
+up the following requests. If you want to always check the output file to
+create the simulation and never call the cache, set this option to true.
+The cache will always be ignored.
+* __kp.plot_options__: Options for the plot
+    * __x_min__
+    * __x_max__
+    * __x_name__
+    * __y_min__
+    * __y_max__
+    * __y_name__
