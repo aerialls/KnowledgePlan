@@ -116,23 +116,23 @@ Player.prototype.displayPlot = function(values)
     $.plot($("#chart"), [
         {
             data: values['points'],
-            points: { show: true },
+            points: {show: true},
             color: '#ffd658'
         },
         {
             data: values['centroids'],
-            points: { show: true },
+            points: {show: true},
             color: 8
         },
         {
             data: values['hlm'],
-            lines: { show: true },
+            lines: {show: true},
             color: 7
         }
     ],{
-        grid: { hoverable: true },
-        xaxis: { min: simulation.plotOptions['x_min'], max: simulation.plotOptions['x_max'] },
-        yaxis: { min: simulation.plotOptions['y_min'], max: simulation.plotOptions['y_max'] }
+        grid: {hoverable: true},
+        xaxis: {min: simulation.plotOptions['x_min'], max: simulation.plotOptions['x_max']},
+        yaxis: {min: simulation.plotOptions['y_min'], max: simulation.plotOptions['y_max']}
     });
 }
 
@@ -205,8 +205,8 @@ Player.prototype.move = function(time)
         time = simulation.maxTime;
     }
 
-    if (time == this.getPosition()) {
-        return;
+    if (time != this.getPosition()) {
+        this.api.setValue(time);
     }
 
     // Informations
@@ -230,8 +230,6 @@ Player.prototype.move = function(time)
             $('#chart').html('');
         }
     }
-
-    this.api.setValue(time);
 }
 
 /**
@@ -299,7 +297,7 @@ $(document).ready(function() {
     });
 
     $(document).ajaxStart(function() {
-        $.blockUI({ message: '<div id="loading"><img src="/images/ajax-loader.gif"/> Loading...</div>' });
+        $.blockUI({message: '<div id="loading"><img src="/images/ajax-loader.gif"/> Loading...</div>'});
     });
 
     $(document).ajaxStop(function() {
