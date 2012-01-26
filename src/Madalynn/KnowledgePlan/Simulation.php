@@ -49,11 +49,11 @@ class Simulation
 
     public function __construct()
     {
-        $this->plotOptions = array();
+        $this->plotOptions  = array();
         $this->informations = array();
-        $this->plots = array();
+        $this->plots        = array();
 
-        $this->step = 1;
+        $this->step    = 1;
         $this->minTime = INF;
         $this->maxTime = -INF;
     }

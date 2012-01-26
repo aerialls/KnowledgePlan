@@ -47,6 +47,13 @@ class SimulationBuilder
     protected $flowsRejected;
 
     /**
+     * @var array $outputrates
+     */
+    protected $outputrates;
+
+    protected $outputrateAverage;
+
+    /**
      * Constructor
      *
      * @param array $plotOptions The options for the plot
@@ -59,7 +66,7 @@ class SimulationBuilder
             'x_max'  => 6,
             'y_name' => 'delay',
             'y_min'  => 0,
-            'y_max'  => 50,
+            'y_max'  => 60,
         );
 
         $this->plotOptions = array_merge($defaultPlotOptions, $plotOptions);
@@ -67,13 +74,15 @@ class SimulationBuilder
 
     private function reset()
     {
-        $this->flowsAccepted = 0;
-        $this->flowsRejected = 0;
-        $this->currentTime   = 0;
+        $this->flowsAccepted     = 0;
+        $this->flowsRejected     = 0;
+        $this->currentTime       = 0;
+        $this->outputrateAverage = 0;
 
-        $this->points    = array();
-        $this->centroids = array();
-        $this->hlm       = array();
+        $this->outputrates = array();
+        $this->points      = array();
+        $this->centroids   = array();
+        $this->hlm         = array();
 
         $this->simulation = new Simulation();
         $this->simulation->setPlotOptions($this->plotOptions);
@@ -95,6 +104,11 @@ class SimulationBuilder
                 $values = $this->explodeInformationsLine($line);
 
                 $this->currentTime = $values['time'];
+
+                // Update the outputrate average
+                if (isset($values['outputrate'])) {
+                    $this->outputrates[] = $values['outputrate'];
+                }
 
                 $this->addPoint($values);
                 $this->addInformations($values);
@@ -256,17 +270,26 @@ class SimulationBuilder
             throw new \RuntimeException('Unable to create a new plot if "centroids" or "hlm" are empty.');
         }
 
+        // We need to update the outputrate average
+        $average = 0;
+        if (0 !== $length = count($this->outputrates)) {
+            $average = array_sum($this->outputrates) / $length;
+        }
+
+        $this->outputrateAverage = $average;
+
         $informations = array(
             'points'    => $this->points,
             'centroids' => $this->centroids,
-            'hlm'       => $this->hlm
+            'hlm'       => $this->hlm,
         );
 
         $this->simulation->addPlot($this->currentTime, $informations);
 
-        $this->points    = array();
-        $this->centroids = array();
-        $this->hlm       = array();
+        $this->points      = array();
+        $this->centroids   = array();
+        $this->hlm         = array();
+        $this->outputrates = array();
     }
 
     private function reverseUnderscore($text)
@@ -282,8 +305,9 @@ class SimulationBuilder
     private function addInformations(array $values)
     {
         $informations = array(
-            'flows_accepted' => $this->flowsAccepted,
-            'flows_rejected' => $this->flowsRejected
+            'flows_accepted'     => $this->flowsAccepted,
+            'flows_rejected'     => $this->flowsRejected,
+            'outputrate_average' => $this->outputrateAverage
         );
 
         // Merge with the default options
