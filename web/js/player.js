@@ -47,9 +47,17 @@ Player.prototype.initialize = function()
 	_player.move(value);
     });
 
-    $(document).keypress(function(event) {
-        if (event.which == 32) {
-            _player.changeState();
+    $(document).keydown(function(event) {
+        switch (event.keyCode) {
+            case 32:
+                _player.changeState();
+                break;
+            case 37:
+                _player.move(_player.calculateTime(_player.getPosition() - 100 * simulation.step));
+                break;
+            case 39:
+                _player.move(_player.calculateTime(_player.getPosition() + 100 * simulation.step));
+                break;
         }
     });
 
@@ -161,7 +169,7 @@ Player.prototype.loop = function()
     // We need a Math.round here because Javascript can't add
     // float exactly. And we need the exact number (2.1 and not
     // 2.1000000000001 ) for the map (simulation.informations)
-    var nextStep = Math.round((this.getPosition() + simulation.step) * 10) / 10;
+    var nextStep = this.calculateTime(this.getPosition() + simulation.step);
 
     this.move(nextStep);
 
@@ -187,6 +195,20 @@ Player.prototype.pause = function()
  */
 Player.prototype.move = function(time)
 {
+    // Min check
+    if (time < simulation.minTime) {
+        time = simulation.minTime;
+    }
+
+    // Max check
+    if (time > simulation.maxTime) {
+        time = simulation.maxTime;
+    }
+
+    if (time == this.getPosition()) {
+        return;
+    }
+
     // Informations
     if (time in simulation.informations) {
         this.displayInformations(simulation.informations[time]);
@@ -226,7 +248,7 @@ Player.prototype.searchPreviousPlot = function(time)
             return simulation.plots[currentTime];
         }
 
-        currentTime = Math.round((currentTime - simulation.step) * 10) / 10;
+        currentTime = this.calculateTime(currentTime - simulation.step);
     }
 
     // Humm... we can't be here
@@ -247,6 +269,14 @@ Player.prototype.changeState = function()
     } else {
         this.pause();
     }
+}
+
+/**
+ * Round a simulation time
+ */
+Player.prototype.calculateTime = function(time)
+{
+    return Math.round(time * 10) / 10;
 }
 
 /**
