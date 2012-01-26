@@ -23,6 +23,7 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
     public function register(Application $app)
     {
         $plotOptions = (isset($app['kp.plot_options'])) ? $app['kp.plot_options'] : array();
+        $forceFresh  = (isset($app['kp.force_fresh']))  ? $app['kp.force_fresh']  : false;
 
         $app['kp.simulation_manager'] = $app->share(function() use ($app) {
             return new SimulationManager($app['kp.simulation_builder'], new FilesystemCache($app['kp.cache_folder']));
@@ -32,8 +33,8 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
             return new SimulationBuilder($plotOptions);
         });
 
-        $app['kp.simulation'] = $app->share(function() use ($app) {
-            return $app['kp.simulation_manager']->get($app['kp.output_file']);
+        $app['kp.simulation'] = $app->share(function() use ($app, $forceFresh) {
+            return $app['kp.simulation_manager']->get($app['kp.output_file'], $forceFresh);
         });
     }
 }
