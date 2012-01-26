@@ -130,7 +130,7 @@ Player.prototype.displayPlot = function(values)
             color: 7
         }
     ],{
-        grid: {hoverable: true},
+        grid:  {hoverable: true},
         xaxis: {min: simulation.plotOptions['x_min'], max: simulation.plotOptions['x_max']},
         yaxis: {min: simulation.plotOptions['y_min'], max: simulation.plotOptions['y_max']}
     });
