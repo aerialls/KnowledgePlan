@@ -134,7 +134,8 @@ Player.prototype.displayPlot = function(values)
         {
             data: [[simulation.plotOptions['x_min'], delayMax], [simulation.plotOptions['x_max'], delayMax]],
             lines: {show: true},
-            color: '#e59595'
+            color: '#999999',
+            shadowSize: 0
         }
     ],{
         grid:  {hoverable: true},
