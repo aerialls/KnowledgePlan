@@ -145,6 +145,32 @@ Player.prototype.displayPlot = function(values)
         xaxis: {min: simulation.plotOptions['x_min'], max: simulation.plotOptions['x_max']},
         yaxis: {min: simulation.plotOptions['y_min'], max: simulation.plotOptions['y_max']}
     });
+
+    // Tooltip
+    var previousPoint = null;
+    $("#chart").bind("plothover", function (event, pos, item) {
+        if (item) {
+            if (previousPoint != item.dataIndex) {
+                // We need to remove the previous tooltip
+                $("#tooltip").remove();
+
+                var x = item.datapoint[0].toFixed(2);
+                var y = item.datapoint[1].toFixed(2);
+
+                previousPoint = item.dataIndex;
+
+                var tooltip = $('<div id="tooltip" class="tipsy">('+x+', '+y+')</div>').css({
+                    top:  item.pageY + 5,
+                    left: item.pageX + 7
+                });
+
+                tooltip.appendTo('body').fadeIn(200);
+            }
+        } else {
+            $("#tooltip").remove();
+            previousPoint = null;
+        }
+    });
 }
 
 Player.prototype.play = function()

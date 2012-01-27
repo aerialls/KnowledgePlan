@@ -123,3 +123,17 @@ body {
     border-top: none;
     line-height: 15px;
 }
+
+#tooltip {
+    font-size: 10px;
+    position: absolute;
+    z-index: 100000;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background-color: #000;
+    color: #FFF;
+    padding: 3px 7px;
+    text-align: center;
+    opacity: 0.7;
+}
