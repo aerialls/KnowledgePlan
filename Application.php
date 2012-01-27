@@ -39,12 +39,12 @@ $app->match('/change', function() use ($app) {
             // Is it a correct simulation output file?
             try {
                 $app['kp.simulation_manager']->get($newSimulationName, true, false);
-                $isCorrect = true;
+                $correct = true;
             } catch (\Exception $e) {
-                $isCorrect = false;
+                $correct = false;
             }
 
-            if (false === $isCorrect) {
+            if (false === $correct) {
                 // Remove the uncorrect file
                 unlink($newSimulationName);
                 $app['session']->setFlash('error', 'Invalid format');
