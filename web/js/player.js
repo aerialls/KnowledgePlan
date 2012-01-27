@@ -119,17 +119,20 @@ Player.prototype.displayPlot = function(values)
         {
             data: values['points'],
             points: {show: true},
-            color: '#ffd658'
+            color: '#ffd658',
+            label: 'Points'
         },
         {
             data: values['centroids'],
             points: {show: true},
-            color: 8
+            color: 8,
+            label: 'Centroids'
         },
         {
             data: values['hlm'],
             lines: {show: true},
-            color: 7
+            color: 7,
+            label: 'Queue HLM'
         },
         {
             data: [[simulation.plotOptions['x_min'], delayMax], [simulation.plotOptions['x_max'], delayMax]],

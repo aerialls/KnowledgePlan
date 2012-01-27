@@ -113,3 +113,13 @@ body {
     top: 2px;
     margin-right: 5px;
 }
+
+.legend table {
+    width: inherit;
+}
+
+.legend table td {
+    padding: 5px 2px;
+    border-top: none;
+    line-height: 15px;
+}
