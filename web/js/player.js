@@ -113,6 +113,7 @@ Player.prototype.displayPlot = function(values)
     }
 
     this.timePlot = values['time'];
+    var delayMax = simulation.plotOptions['delay_max'];
 
     $.plot($("#chart"), [
         {
@@ -129,6 +130,11 @@ Player.prototype.displayPlot = function(values)
             data: values['hlm'],
             lines: {show: true},
             color: 7
+        },
+        {
+            data: [[simulation.plotOptions['x_min'], delayMax], [simulation.plotOptions['x_max'], delayMax]],
+            lines: {show: true},
+            color: '#e59595'
         }
     ],{
         grid:  {hoverable: true},

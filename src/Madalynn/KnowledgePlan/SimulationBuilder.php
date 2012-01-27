@@ -61,12 +61,13 @@ class SimulationBuilder
     public function __construct(array $plotOptions = array())
     {
         $defaultPlotOptions = array(
-            'x_name' => 'outputrate',
-            'x_min'  => 0,
-            'x_max'  => 6,
-            'y_name' => 'delay',
-            'y_min'  => 0,
-            'y_max'  => 60,
+            'x_name'    => 'outputrate',
+            'x_min'     => 0,
+            'x_max'     => 6,
+            'y_name'    => 'delay',
+            'y_min'     => 0,
+            'y_max'     => 60,
+            'delay_max' => 10
         );
 
         $this->plotOptions = array_merge($defaultPlotOptions, $plotOptions);
