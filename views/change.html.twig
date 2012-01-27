@@ -1,0 +1,19 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    {% for key,message in app.session.flashes %}
+        <div class="alert-message {{ key }}">
+            <p>{{ message }}</p>
+        </div>
+    {% endfor %}
+
+    <h1>Change the simulation file</h1>
+
+    <form action="{{ path('change') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Update">
+            <button type="reset" class="btn">Undo</button>
+        </div>
+    </form>
+{% endblock %}

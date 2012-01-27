@@ -40,10 +40,11 @@ class SimulationManager
      *
      * @param string  $filename The filename
      * @param Boolean $force    If true, the cache won't be called
+     * @param Boolean $store    Store in the cache
      *
      * @return Madalynn\KnowledgePlan\Simulation
      */
-    public function get($filename, $force = false)
+    public function get($filename, $force = false, $store = true)
     {
         if (false === $force && $this->cache->has($filename)) {
             return $this->cache->get($filename);
@@ -52,7 +53,9 @@ class SimulationManager
         $simulation = $this->builder->createSimulation($filename);
 
         // Add a new entry to the cache
-        $this->cache->set($filename, $simulation);
+        if (true === $store) {
+            $this->cache->set($filename, $simulation);
+        }
 
         return $simulation;
     }
