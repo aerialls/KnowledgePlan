@@ -54,6 +54,7 @@ $app->match('/change', function() use ($app) {
                     unlink($oldSimulationName);
                 }
 
+                $app['kp.simulation_manager']->remove($oldSimulationName);
                 rename($newSimulationName, $oldSimulationName);
                 $app['session']->setFlash('success', 'The simulation output file has been correctly updated.');
             }
