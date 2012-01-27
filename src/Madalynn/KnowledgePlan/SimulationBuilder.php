@@ -70,7 +70,18 @@ class SimulationBuilder
             'delay_max' => 10
         );
 
-        $this->plotOptions = array_merge($defaultPlotOptions, $plotOptions);
+        $plotOptions = array_merge($defaultPlotOptions, $plotOptions);
+
+        // Check for labels
+        if (!isset($plotOptions['x_label'])) {
+            $plotOptions['x_label'] = $this->reverseUnderscore($plotOptions['x_name']);
+        }
+
+        if (!isset($plotOptions['y_label'])) {
+            $plotOptions['y_label'] = $this->reverseUnderscore($plotOptions['y_name']);
+        }
+
+        $this->plotOptions = $plotOptions;
     }
 
     private function reset()

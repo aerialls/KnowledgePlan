@@ -142,8 +142,16 @@ Player.prototype.displayPlot = function(values)
         }
     ],{
         grid:  {hoverable: true},
-        xaxis: {min: simulation.plotOptions['x_min'], max: simulation.plotOptions['x_max']},
-        yaxis: {min: simulation.plotOptions['y_min'], max: simulation.plotOptions['y_max']}
+        xaxis: {
+            min: simulation.plotOptions['x_min'],
+            max: simulation.plotOptions['x_max'],
+            label: simulation.plotOptions['x_label']
+        },
+        yaxis: {
+            min: simulation.plotOptions['y_min'],
+            max: simulation.plotOptions['y_max'],
+            label: simulation.plotOptions['y_label']
+        }
     });
 
     // Tooltip

@@ -40,12 +40,14 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
     'kp.cache_folder' => __DIR__.'/cache',
     'kp.output_file'  => __DIR__.'/output',
     'kp.plot_options' => array(
-        'x_min'  => 0,
-        'x_max'  => 10,
-        'y_min'  => 0,
-        'y_max'  => 60,
-        'x_name' => 'outputrate',
-        'y_name' => 'delay'
+        'x_min'   => 0,
+        'x_max'   => 10,
+        'y_min'   => 0,
+        'y_max'   => 60,
+        'x_name'  => 'outputrate',
+        'y_name'  => 'delay',
+        'x_label' => 'Output rate',
+        'y_label' => 'Delay (ms)'
     )
 ));
 ```
@@ -58,7 +60,11 @@ The cache will always be ignored.
 * __kp.plot_options__: Options for the plot
     * __x_min__
     * __x_max__
-    * __x_name__
+    * __x_name__: The name of the field in the output file
+    * __x_label__: The name of the label. If this field is left blank, the
+    `x_name` field is using
     * __y_min__
     * __y_max__
-    * __y_name__
+    * __y_name__: The name of the field in the output file
+    * __y_label__: The name of the label. If this field is left blank, the
+    `y_name` field is using
