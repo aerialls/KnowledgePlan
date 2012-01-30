@@ -16,9 +16,9 @@ use Madalynn\KnowledgePlan\Simulation\SimulationManager;
 class Experience
 {
     /**
-     * @var Madalynn\KnowledgePlan\Simulation\SimulationManager $simulationManager
+     * @var Madalynn\KnowledgePlan\Simulation\SimulationManager $manager
      */
-    protected $simulationManager;
+    protected $manager;
 
     /**
      * @var array $simulations
@@ -29,31 +29,30 @@ class Experience
      * Constructor
      *
      * @param array $simulations Simulations. Can be a Simulation instance or
-     *                           a path to the simulation output file
+     *                                        a path to the simulation output file
      *
-     * @param SimulationManager $simulationManager A SimulationManager instance
+     * @param SimulationManager $manager      A SimulationManager instance
      *
      * @throws \RuntimeException If the manager is unable to load a simulation
      */
-    public function __construct(array $simulations, SimulationManager $simulationManager)
+    public function __construct(array $simulations, SimulationManager $manager)
     {
         if (0 === count($simulations)) {
             throw new \InvalidArgumentException('An experience must have at least one simulation.');
         }
 
-        $this->simulationManager = $simulationManager;
-        $this->simulations       = array();
+        $this->manager     = $manager;
+        $this->simulations = array();
 
         foreach($simulations as $simulation) {
-            if ($simulation instanceof Madalynn\KnowledgePlan\Simulation\Simulation) {
-                $this->simulations[] = $simulation;
-            } else {
-                try {
-                    $simulation = $simulationManager->get($simulation);
-                } catch(\Exception $e) {
-                    throw new \RuntimeException(sprintf('Unable to load the simulation "%s": %s', $simulation, $e->getMessage()));
-                }
+            try {
+                $file = $manager->get($simulation);
+            } catch(\Exception $e) {
+                throw new \RuntimeException(sprintf('Unable to load the simulation "%s": %s', $simulation, $e->getMessage()));
             }
+
+            $name = pathinfo($simulation, PATHINFO_FILENAME);
+            $this->simulations[$name] = $file;
         }
     }
 

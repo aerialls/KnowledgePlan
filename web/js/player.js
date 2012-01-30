@@ -83,9 +83,9 @@ Player.prototype.forward = function()
 }
 
 /**
- * Displays informations in the table next to the plot
+ * Displays informations for a simulation
  */
-Player.prototype.displayInformations = function(values)
+Player.prototype.displayInformations = function(simulation, values)
 {
     var time = values['time'];
 
@@ -93,7 +93,7 @@ Player.prototype.displayInformations = function(values)
         time = time + '.0';
     }
 
-    $("#label-time").html(time + ' sec');
+    $('#label-time').html(time + ' sec');
     $('#label-accepted-flows').html(values['flows_accepted']);
     $('#label-rejected-flows').html(values['flows_rejected']);
     $('#label-waiting-time').html(values['waiting_time'] + ' ns');
@@ -103,9 +103,9 @@ Player.prototype.displayInformations = function(values)
 }
 
 /**
- * Displays the plot
+ * Displays the plot for a simulation
  */
-Player.prototype.displayPlot = function(values)
+Player.prototype.displayPlot = function(simulation, values)
 {
     if (values['time'] == this.timePlot) {
         // We don't need to draw the same plot
@@ -349,7 +349,7 @@ $(document).ready(function() {
         $.unblockUI();
     });
 
-    $.getScript('/js/simulation.js', function(data, textStatus){
+    $.getScript('/js/experience.js', function(data, textStatus){
         player.initialize();
     });
 });

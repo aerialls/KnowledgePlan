@@ -1,0 +1,14 @@
+{# This file represents the simulation #}
+
+var simulations = new Object();
+
+{% for name,simulation in experience.simulations %}
+simulations["{{ name }}"] = {
+    "options": {{ simulation.plotOptions|json_encode|raw }},
+    "plot": {{ simulation.plots|json_encode|raw }},
+    "step": {{ simulation.step }},
+    "min_time": {{ simulation.minTime }},
+    "max_time": {{ simulation.maxTime }},
+    "informations": {{ simulation.informations|json_encode|raw }}
+};
+{% endfor %}

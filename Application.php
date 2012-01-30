@@ -73,10 +73,10 @@ $app->match('/change', function() use ($app) {
     ));
 })->bind('change');
 
-$app->get('/js/simulation.js', function() use ($app) {
-    $simulation = $app['kp.simulation'];
-    $content = $app['twig']->render('simulation.js.twig', array(
-        'simulation' => $simulation
+$app->get('/js/experience.js', function() use ($app) {
+    $experience = $app['kp.experience'];
+    $content = $app['twig']->render('experience.js.twig', array(
+        'experience' => $experience
     ));
 
     $response = new Response($content);
