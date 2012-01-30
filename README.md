@@ -36,7 +36,7 @@ All the configuration is done in the `bootstrap.php` with the
 ```
 // Knowledge Plan
 $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider(), array(
-    'kp.force_fresh'  => false,
+    'kp.dry_run'      => false,
     'kp.cache_folder' => __DIR__.'/cache',
     'kp.output_file'  => __DIR__.'/output',
     'kp.plot_options' => array(
@@ -53,7 +53,7 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
 ```
 * __kp.cache_folder__: The folder to store simulation files
 * __kp.outut_file__: The output file (e.g The simulation)
-* __kp.force_fresh__: By default, the simulation is store in the cache to speed
+* __kp.dry_run__: By default, the simulation is store in the cache to speed
 up the following requests. If you want to always check the output file to
 create the simulation and never call the cache, set this option to true.
 The cache will always be ignored.

@@ -3,4 +3,4 @@
 /composer.lock
 .DS_Store
 /cache
-/output
+/simulations
