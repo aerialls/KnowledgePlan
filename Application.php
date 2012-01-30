@@ -32,8 +32,8 @@ $app->match('/change', function() use ($app) {
             $file = $data['file'];
             $name = $data['name'];
 
-            $oldSimulationName = $app['kp.simulations_folder'].'/'.$name;
-            $newSimulationName = $oldSimulationName.'_new';
+            $simulation = $app['kp.simulations_folder'].'/'.$name;
+            $newSimulation = $simulation.'_new';
 
             // Check the file mimetype
             if ('text/plain' !== $file->getClientMimeType()) {
@@ -41,11 +41,11 @@ $app->match('/change', function() use ($app) {
             }
 
             // Move the file to the correct folder
-            $file->move(dirname($newSimulationName), basename($newSimulationName));
+            $file->move(dirname($newSimulation), basename($newSimulation));
 
             // Is it a correct simulation output file?
             try {
-                $app['kp.simulation_manager']->get($newSimulationName, true, false);
+                $app['kp.simulation_manager']->get($newSimulation, true, false);
                 $correct = true;
             } catch (\Exception $e) {
                 $correct = false;
@@ -53,16 +53,16 @@ $app->match('/change', function() use ($app) {
 
             if (false === $correct) {
                 // Remove the uncorrect file
-                unlink($newSimulationName);
+                unlink($newSimulation);
                 $app['session']->setFlash('error', 'Invalid format');
             } else {
                 // The file is correct
-                if (true === file_exists($oldSimulationName)) {
-                    unlink($oldSimulationName);
+                if (true === file_exists($simulation)) {
+                    $app['kp.simulation_manager']->remove($simulation);
+                    unlink($simulation);
                 }
 
-                $app['kp.simulation_manager']->remove($oldSimulationName);
-                rename($newSimulationName, $oldSimulationName);
+                rename($newSimulation, $simulation);
                 $app['session']->setFlash('success', sprintf('The simulation output "%s" has been correctly updated.', $name));
             }
         }
