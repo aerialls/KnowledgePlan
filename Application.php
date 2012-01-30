@@ -85,10 +85,10 @@ $app->get('/js/simulation.js', function() use ($app) {
     return $response;
 });
 
-$app->error(function(\Exception $e, $code) use ($app) {
+$app->error(function(\Exception $exception, $code) use ($app) {
     return $app['twig']->render('error.html.twig', array(
-        'code' => $code,
-        'e'    => $e,
+        'code'      => $code,
+        'exception' => $exception,
     ));
 });
 
