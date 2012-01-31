@@ -48,9 +48,5 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
 
             return new Experience($simulations, $app['kp.simulation_manager']);
         });
-
-//        $app['kp.simulation'] = $app->share(function() use ($app, $forceFresh) {
-//            return $app['kp.simulation_manager']->get($app['kp.output_file'], $forceFresh);
-//        });
     }
 }
