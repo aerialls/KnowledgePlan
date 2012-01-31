@@ -20,6 +20,8 @@ use Madalynn\KnowledgePlan\Simulation\SimulationBuilder;
 use Madalynn\KnowledgePlan\Cache\FilesystemCache;
 use Madalynn\KnowledgePlan\Cache\EmptyCache;
 
+use Symfony\Component\Finder\Finder;
+
 class KnowledgePlanServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
@@ -41,12 +43,12 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
         });
 
         $app['kp.experience'] = $app->share(function() use ($app) {
-            // Add the folder prefix to all the simulations
-            $simulations = array_map(function($element) use ($app) {
-                return $app['kp.simulations_folder'].'/'.$element;
-            }, $app['kp.simulations']);
+            // Retrives all the simulations available
+            $simulations = Finder::create()->files()
+                                           ->in($app['kp.simulations_folder'])
+                                           ->getIterator();
 
-            return new Experience($simulations, $app['kp.simulation_manager']);
+            return new Experience(iterator_to_array($simulations), $app['kp.simulation_manager']);
         });
     }
 }

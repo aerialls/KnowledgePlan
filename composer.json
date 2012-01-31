@@ -4,6 +4,7 @@
         "silex/silex": "*",
         "symfony/form": "2.1.*",
         "symfony/twig-bridge": "2.1.*",
+        "symfony/finder" : "2.1.*",
         "twig/twig": "1.5.1"
     },
 

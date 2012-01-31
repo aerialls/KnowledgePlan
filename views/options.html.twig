@@ -7,7 +7,26 @@
         </div>
     {% endfor %}
 
-    <h1>Options <small>Change a simulation file</small></h1>
+    <h1>Remove a simulation</h1>
+
+    <table class="zebra-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for simulation in simulations %}
+            <tr>
+                <td>{{ simulation.filename }}</td>
+                <td><a href="{{ path('remove', {'filename': simulation.filename}) }}">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>Add a new simulation <small>or update</small></h1>
 
     <form action="{{ path('options') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}

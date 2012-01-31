@@ -11,6 +11,7 @@
 
 require_once 'bootstrap.php';
 
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Madalynn\KnowledgePlan\Symfony\GzipStreamedResponse;
 
@@ -19,6 +20,10 @@ $app->get('/', function() use ($app) {
 })->bind('homepage');
 
 $app->match('/options', function() use ($app) {
+    $simulations = Finder::create()->files()
+                                   ->in($app['kp.simulations_folder'])
+                                   ->getIterator();
+
     $form = $app['form.factory']->createBuilder('form')
                                 ->add('name', 'text', array('label' => 'Name'))
                                 ->add('file', 'file', array('label' => 'Simulation file'))
@@ -70,7 +75,8 @@ $app->match('/options', function() use ($app) {
     }
 
     return $app['twig']->render('options.html.twig', array(
-        'form' => $form->createView()
+        'simulations' => $simulations,
+        'form'        => $form->createView()
     ));
 })->bind('options');
 
@@ -95,5 +101,15 @@ $app->error(function(\Exception $exception, $code) use ($app) {
         'exception' => $exception,
     ));
 });
+
+$app->get('/remove/{filename}', function($filename) use ($app) {
+   $path = $app['kp.simulations_folder'].'/'.$filename;
+   unlink($path);
+
+   // Flash
+   $app['session']->setFlash('success', sprintf('The simulation "%s" has been correctly removed.', $filename));
+
+   return $app->redirect($app['url_generator']->generate('options'));
+})->bind('remove');
 
 return $app;
