@@ -10,43 +10,53 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div id="chart" class="span7">
+    <div id="template">
+        <div class="row">
+            <div class="span14">
+                <h1>Simulation <small class="title"></small></h1>
+            </div>
         </div>
-        <div class="span7">
-            <table id="informations" class="zebra-striped">
-                <tbody>
-                    <tr>
-                        <td><strong>Time</strong></td>
-                        <td><span id="label-time"></span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Accepted flows</strong></td>
-                        <td><span id="label-accepted-flows" class="color-green"></span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Rejected flows</strong></td>
-                        <td><span id="label-rejected-flows" class="color-red"></span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Waiting time</strong></td>
-                        <td><span id="label-waiting-time"></span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Output rate</strong></td>
-                        <td><span id="label-outputrate"></span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Output rate (average)</strong></td>
-                        <td><span id="label-outputrate-average"></span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Delay</strong></td>
-                        <td><span id="label-delay"></span></td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="chart span7">
+            </div>
+            <div class="span7">
+                <table class="informations zebra-striped">
+                    <tbody>
+                        <tr>
+                            <td><strong>Time</strong></td>
+                            <td><span class="label-time"></span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accepted flows</strong></td>
+                            <td><span class="label-accepted-flows" class="color-green"></span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rejected flows</strong></td>
+                            <td><span class="label-rejected-flows" class="color-red"></span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Waiting time</strong></td>
+                            <td><span class="label-waiting-time"></span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output rate</strong></td>
+                            <td><span class="label-outputrate"></span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Output rate (average)</strong></td>
+                            <td><span class="label-outputrate-average"></span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Delay</strong></td>
+                            <td><span class="label-delay"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+
+    <div id="experience">
     </div>
 
     <div class="row">

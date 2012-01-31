@@ -12,6 +12,7 @@
 namespace Madalynn\KnowledgePlan;
 
 use Madalynn\KnowledgePlan\Simulation\SimulationManager;
+use Madalynn\KnowledgePlan\Simulation\Simulation;
 
 class Experience
 {
@@ -24,6 +25,12 @@ class Experience
      * @var array $simulations
      */
     protected $simulations;
+
+    protected $minTime;
+
+    protected $maxTime;
+
+    protected $step;
 
     /**
      * Constructor
@@ -43,6 +50,9 @@ class Experience
 
         $this->manager     = $manager;
         $this->simulations = array();
+        $this->step        = 1;
+        $this->minTime     = INF;
+        $this->maxTime     = -INF;
 
         foreach($simulations as $simulation) {
             try {
@@ -52,12 +62,43 @@ class Experience
             }
 
             $name = pathinfo($simulation, PATHINFO_FILENAME);
-            $this->simulations[$name] = $file;
+            $this->addSimulation($name, $file);
         }
+    }
+
+    /**
+     * Add a simulation to the experience
+     *
+     * @param string $name
+     * @param Simulation $simulation
+     */
+    private function addSimulation($name, Simulation $simulation)
+    {
+        // Check for max time and min time and step
+        $this->minTime = min($simulation->getMinTime(), $this->minTime);
+        $this->maxTime = max($simulation->getMaxTime(), $this->maxTime);
+        $this->step    = min($simulation->getStep(), $this->step);
+
+        $this->simulations[$name] = $simulation;
     }
 
     public function getSimulations()
     {
         return $this->simulations;
+    }
+
+    public function getStep()
+    {
+        return $this->step;
+    }
+
+    public function getMinTime()
+    {
+        return $this->minTime;
+    }
+
+    public function getMaxTime()
+    {
+        return $this->maxTime;
     }
 }

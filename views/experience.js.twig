@@ -1,14 +1,25 @@
 {# This file represents the simulation #}
 
-var simulations = new Object();
+var experience = new Object();
+
+experience.names = new Array();
+experience.simulations = new Object();
+
+experience.step = {{ experience.step }};
+experience.minTime = {{ experience.minTime }};
+experience.maxTime = {{ experience.maxTime }};
 
 {% for name,simulation in experience.simulations %}
-simulations["{{ name }}"] = {
-    "options": {{ simulation.plotOptions|json_encode|raw }},
-    "plot": {{ simulation.plots|json_encode|raw }},
-    "step": {{ simulation.step }},
-    "min_time": {{ simulation.minTime }},
-    "max_time": {{ simulation.maxTime }},
-    "informations": {{ simulation.informations|json_encode|raw }}
-};
+{% spaceless %}
+    experience.names.push("{{ name }}");
+
+    experience.simulations["{{ name }}"] = {
+        "options": {{ simulation.plotOptions|json_encode|raw }},
+        "plots": {{ simulation.plots|json_encode|raw }},
+        "step": {{ simulation.step }},
+        "min_time": {{ simulation.minTime }},
+        "max_time": {{ simulation.maxTime }},
+        "informations": {{ simulation.informations|json_encode|raw }}
+    };
+{% endspaceless %}
 {% endfor %}

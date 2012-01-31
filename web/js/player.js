@@ -5,7 +5,6 @@ function Player()
 {
     this.state    = undefined;
     this.api      = undefined;
-    this.timePlot = undefined;
 }
 
 /**
@@ -14,10 +13,21 @@ function Player()
 Player.prototype.initialize = function()
 {
     $(":range").rangeinput({
-        min:  simulation.minTime,
-        max:  simulation.maxTime,
-        step: simulation.step
+        min:  experience.minTime,
+        max:  experience.maxTime,
+        step: experience.step
     });
+
+    // For each simulations
+    for (var i = 0 ; i < experience.names.length ; i++) {
+        $('#template').clone()
+                      .attr('id', 'simul-' + experience.names[i])
+                      .attr('data-name', experience.names[i])
+                      .attr('data-id', i)
+                      .appendTo('#experience');
+
+        $('#simul-' + experience.names[i] + ' .title').html(experience.names[i]);
+    }
 
     var _player = this;
     this.api = $(':range').data('rangeinput');
@@ -53,10 +63,10 @@ Player.prototype.initialize = function()
                 _player.changeState();
                 break;
             case 37:
-                _player.move(_player.calculateTime(_player.getPosition() - 100 * simulation.step));
+                _player.move(_player.calculateTime(_player.getPosition() - 100 * experience.step));
                 break;
             case 39:
-                _player.move(_player.calculateTime(_player.getPosition() + 100 * simulation.step));
+                _player.move(_player.calculateTime(_player.getPosition() + 100 * experience.step));
                 break;
         }
     });
@@ -70,7 +80,7 @@ Player.prototype.initialize = function()
 Player.prototype.backward = function()
 {
     this.pause();
-    this.move(simulation.minTime);
+    this.move(experience.minTime);
 }
 
 /**
@@ -79,43 +89,31 @@ Player.prototype.backward = function()
 Player.prototype.forward = function()
 {
     this.pause();
-    this.move(simulation.maxTime);
+    this.move(experience.maxTime);
 }
 
 /**
  * Displays informations for a simulation
  */
-Player.prototype.displayInformations = function(simulation, values)
+Player.prototype.displayInformations = function(name, values)
 {
-    var time = values['time'];
-
-    if (time.indexOf('.') == -1) {
-        time = time + '.0';
-    }
-
-    $('#label-time').html(time + ' sec');
-    $('#label-accepted-flows').html(values['flows_accepted']);
-    $('#label-rejected-flows').html(values['flows_rejected']);
-    $('#label-waiting-time').html(values['waiting_time'] + ' ns');
-    $('#label-outputrate').html(values['outputrate']);
-    $('#label-outputrate-average').html(values['outputrate_average']);
-    $('#label-delay').html(values['delay']);
+    $('#simul-' + name + ' .label-time').html(values['time'] + ' sec');
+    $('#simul-' + name + ' .label-accepted-flows').html(values['flows_accepted']);
+    $('#simul-' + name + ' .label-rejected-flows').html(values['flows_rejected']);
+    $('#simul-' + name + ' .label-waiting-time').html(values['waiting_time'] + ' ns');
+    $('#simul-' + name + ' .label-outputrate').html(values['outputrate']);
+    $('#simul-' + name + ' .label-outputrate-average').html(values['outputrate_average']);
+    $('#simul-' + name + ' .label-delay').html(values['delay']);
 }
 
 /**
  * Displays the plot for a simulation
  */
-Player.prototype.displayPlot = function(simulation, values)
+Player.prototype.displayPlot = function(name, values)
 {
-    if (values['time'] == this.timePlot) {
-        // We don't need to draw the same plot
-        return;
-    }
+    var simulation = experience.simulations[name];
 
-    this.timePlot = values['time'];
-    var delayMax = simulation.plotOptions['delay_max'];
-
-    $.plot($("#chart"), [
+    $.plot($('#simul-' + name + ' .chart'), [
         {
             data: values['points'],
             points: {show: true},
@@ -133,30 +131,24 @@ Player.prototype.displayPlot = function(simulation, values)
             lines: {show: true},
             color: 7,
             label: 'Queue HLM'
-        },
-        {
-            data: [[simulation.plotOptions['x_min'], delayMax], [simulation.plotOptions['x_max'], delayMax]],
-            lines: {show: true},
-            color: '#999999',
-            shadowSize: 0
         }
     ],{
         grid:  {hoverable: true},
         xaxis: {
-            min: simulation.plotOptions['x_min'],
-            max: simulation.plotOptions['x_max'],
-            label: simulation.plotOptions['x_label']
+            min: simulation['options']['x_min'],
+            max: simulation['options']['x_max'],
+            label: simulation['options']['x_label']
         },
         yaxis: {
-            min: simulation.plotOptions['y_min'],
-            max: simulation.plotOptions['y_max'],
-            label: simulation.plotOptions['y_label']
+            min: simulation['options']['y_min'],
+            max: simulation['options']['y_max'],
+            label: simulation['options']['y_label']
         }
     });
 
     // Tooltip
     var previousPoint = null;
-    $("#chart").bind("plothover", function (event, pos, item) {
+    $('#simul-' + name + ' .chart').bind('plothover', function (event, pos, item) {
         if (item) {
             if (previousPoint != item.dataIndex) {
                 // We need to remove the previous tooltip
@@ -205,8 +197,8 @@ Player.prototype.loop = function()
         return;
     }
 
-    if (this.getPosition() >= simulation.maxTime) {
-        console.log('End of the simulation');
+    if (this.getPosition() >= experience.maxTime) {
+        console.log('End of the experience');
         this.pause();
         return;
     }
@@ -214,12 +206,13 @@ Player.prototype.loop = function()
     // We need a Math.round here because Javascript can't add
     // float exactly. And we need the exact number (2.1 and not
     // 2.1000000000001 ) for the map (simulation.informations)
-    var nextStep = this.calculateTime(this.getPosition() + simulation.step);
+    var nextStep = this.calculateTime(this.getPosition() + experience.step);
 
-    this.move(nextStep);
-
-    // Do again...
     var _player = this;
+    setTimeout(function() {
+        _player.move(nextStep);
+    });
+
     setTimeout(function() {
         _player.loop();
     }, 100);
@@ -241,38 +234,41 @@ Player.prototype.pause = function()
 Player.prototype.move = function(time)
 {
     // Min check
-    if (time < simulation.minTime) {
-        time = simulation.minTime;
+    if (time < experience.minTime) {
+        time = experience.minTime;
     }
 
     // Max check
-    if (time > simulation.maxTime) {
-        time = simulation.maxTime;
+    if (time > experience.maxTime) {
+        time = experience.maxTime;
     }
 
     if (time != this.getPosition()) {
-        this.api.setValue(time);
+        this.setPosition(time);
     }
 
-    // Informations
-    if (time in simulation.informations) {
-        this.displayInformations(simulation.informations[time]);
-    } else {
-        console.warn('Unable to find informations for the time ' + time);
-    }
+    for (var i = 0 ; i < experience.names.length ; i++) {
+        var name       = experience.names[i];
+        var simulation = experience.simulations[name];
 
-    // Plots
-    if (time in simulation.plots) {
-        this.displayPlot(simulation.plots[time]);
-    } else {
-        // We need to seach the last plot in the list
-        var plot = this.searchPreviousPlot(time);
-        if (plot != null) {
-            this.displayPlot(plot);
+        // Informations
+        if (time in simulation['informations']) {
+            this.displayInformations(name, simulation['informations'][time]);
+        }
+
+        // Plots
+        if (time in simulation['plots']) {
+            this.displayPlot(name, simulation['plots'][time]);
         } else {
-            // No chart to display yet
-            // So we erase the last one
-            $('#chart').html('');
+            // We need to seach the last plot in the list
+            var plot = this.searchPreviousPlot(name,time);
+            if (plot != null) {
+                this.displayPlot(name, plot);
+            } else {
+                // No chart to display yet
+                // So we erase the last one
+                $('#chart').html('');
+            }
         }
     }
 }
@@ -280,18 +276,19 @@ Player.prototype.move = function(time)
 /**
  * Search the previous plot for a given time
  */
-Player.prototype.searchPreviousPlot = function(time)
+Player.prototype.searchPreviousPlot = function(name, time)
 {
-    var currentTime = time - simulation.step;
+    var currentTime = time - experience.step;
+    var simulation  = experience.simulations[name];
 
     // Search for a previous plot
-    while (currentTime >= simulation.minTime) {
+    while (currentTime >= experience.minTime) {
         // Does the plot exist?
-        if (currentTime in simulation.plots) {
-            return simulation.plots[currentTime];
+        if (currentTime in simulation['plots']) {
+            return simulation['plots'][currentTime];
         }
 
-        currentTime = this.calculateTime(currentTime - simulation.step);
+        currentTime = this.calculateTime(currentTime - experience.step);
     }
 
     // Humm... we can't be here
@@ -330,10 +327,15 @@ Player.prototype.getPosition = function()
     return this.api.getValue();
 }
 
+Player.prototype.setPosition = function(value)
+{
+    this.api.setValue(value);
+}
+
 var player = new Player();
 
 $(document).ready(function() {
-    // Get the simulation (ajax loading)
+    // Get the experience (ajax loading)
     $(document).ajaxError(function(e, jqxhr, settings, exception) {
         if (settings.dataType == 'script') {
             alert('Unable to load the simulation.');
