@@ -18,7 +18,7 @@ $app->get('/', function() use ($app) {
     return $app['twig']->render('homepage.html.twig');
 })->bind('homepage');
 
-$app->match('/change', function() use ($app) {
+$app->match('/options', function() use ($app) {
     $form = $app['form.factory']->createBuilder('form')
                                 ->add('name', 'text', array('label' => 'Name'))
                                 ->add('file', 'file', array('label' => 'Simulation file'))
@@ -31,7 +31,7 @@ $app->match('/change', function() use ($app) {
             $data = $form->getData();
 
             $file = $data['file'];
-            $name = $data['name'];
+            $name = strtolower($data['name']);
 
             $simulation = $app['kp.simulations_folder'].'/'.$name;
             $newSimulation = $simulation.'_new';
@@ -69,10 +69,10 @@ $app->match('/change', function() use ($app) {
         }
     }
 
-    return $app['twig']->render('change.html.twig', array(
+    return $app['twig']->render('options.html.twig', array(
         'form' => $form->createView()
     ));
-})->bind('change');
+})->bind('options');
 
 $app->get('/js/experience.js', function() use ($app) {
     // We use a Gzip for the content encoding to reduce

@@ -7,9 +7,9 @@
         </div>
     {% endfor %}
 
-    <h1>Change a simulation file</h1>
+    <h1>Options <small>Change a simulation file</small></h1>
 
-    <form action="{{ path('change') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('options') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <div class="actions">
             <input type="submit" class="btn primary" value="Update">
