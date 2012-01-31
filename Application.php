@@ -12,6 +12,7 @@
 require_once 'bootstrap.php';
 
 use Symfony\Component\HttpFoundation\Response;
+use Madalynn\KnowledgePlan\Symfony\GzipStreamedResponse;
 
 $app->get('/', function() use ($app) {
     return $app['twig']->render('homepage.html.twig');
@@ -74,12 +75,15 @@ $app->match('/change', function() use ($app) {
 })->bind('change');
 
 $app->get('/js/experience.js', function() use ($app) {
-    $experience = $app['kp.experience'];
-    $content = $app['twig']->render('experience.js.twig', array(
-        'experience' => $experience
-    ));
+    // We use a Gzip for the content encoding to reduce
+    // the size of the file. Futhermore, the Streamed response
+    // speed up the result
+    $response = new GzipStreamedResponse(function() use ($app) {
+        echo $app['twig']->render('experience.js.twig', array(
+        'experience' => $app['kp.experience']
+        ));
+    });
 
-    $response = new Response($content);
     $response->headers->set('Content-Type', 'text/javascript');
 
     return $response;
