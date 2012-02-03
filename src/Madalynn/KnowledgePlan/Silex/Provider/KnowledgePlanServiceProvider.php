@@ -14,7 +14,8 @@ namespace Madalynn\KnowledgePlan\Silex\Provider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-use Madalynn\KnowledgePlan\Experience;
+use Madalynn\KnowledgePlan\ExperienceBuilder;
+use Madalynn\KnowledgePlan\ExperienceManager;
 use Madalynn\KnowledgePlan\Simulation\SimulationManager;
 use Madalynn\KnowledgePlan\Simulation\SimulationBuilder;
 use Madalynn\KnowledgePlan\Cache\FilesystemCache;
@@ -26,29 +27,36 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-
         $app['kp.simulation_manager'] = $app->share(function() use ($app) {
             // If the application is in dry run mode
             // Then the cache can't be used to store
             // all the simulations
             $cache = (isset($app['dry_run']) && $app['dry_run']) ? new EmptyCache() : new FilesystemCache($app['kp.cache_folder']);
 
-            return new SimulationManager($app['kp.simulation_builder'], $cache);
+            return new SimulationManager($app['kp.simulation_builder'], $cache, $app['kp.simulations_folder']);
         });
 
         $app['kp.simulation_builder'] = $app->share(function() use ($app) {
-            $options = isset($app['kp.plot_options']) ? $app['kp.plot_options'] : array();
+            $options      = isset($app['kp.options']) ? $app['kp.options'] : array();
+            $localOptions = isset($app['kp.simulation_options']) ? $app['kp.simulation_options'] : array();
 
-            return new SimulationBuilder($options);
+            return new SimulationBuilder($options, $localOptions);
         });
 
-        $app['kp.experience'] = $app->share(function() use ($app) {
-            // Retrives all the simulations available
-            $simulations = Finder::create()->files()
-                                           ->in($app['kp.simulations_folder'])
-                                           ->getIterator();
+        $app['kp.experience_manager'] = $app->share(function() use ($app) {
+            $manager     = new ExperienceManager();
+            $experiences = $app['kp.experiences'];
 
-            return new Experience(iterator_to_array($simulations), $app['kp.simulation_manager']);
+            foreach ($experiences as $name => $options) {
+                $experience = $app['kp.experience_builder']->create($name, $options);
+                $manager->add($experience);
+            }
+
+            return $manager;
+        });
+
+        $app['kp.experience_builder'] = $app->share(function() use ($app) {
+            return new ExperienceBuilder($app['kp.simulation_manager']);
         });
     }
 }

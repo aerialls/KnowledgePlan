@@ -14,11 +14,18 @@ namespace Madalynn\KnowledgePlan\Simulation;
 class SimulationBuilder
 {
     /**
-     * Options for the plot (like axis..)
+     * Options (like axis..)
      *
-     * @var array $plotOptions
+     * @var array $options
      */
-    protected $plotOptions;
+    protected $options;
+
+    /**
+     * Options for a specific simulation
+     *
+     * @var array $localOptions
+     */
+    protected $localOptions;
 
     /**
      * @var Madalynn\KnowledgePlan\Simulation $simulation
@@ -56,11 +63,12 @@ class SimulationBuilder
     /**
      * Constructor
      *
-     * @param array $plotOptions The options for the plot
+     * @param array $options      Options
+     * @param array $localOptions Options for a specific simulation
      */
-    public function __construct(array $plotOptions = array())
+    public function __construct(array $options = array(), array $localOptions = array())
     {
-        $defaultPlotOptions = array(
+        $defaultOptions = array(
             'x_name'    => 'outputrate',
             'x_min'     => 0,
             'x_max'     => 6,
@@ -70,18 +78,19 @@ class SimulationBuilder
             'delay_max' => 10
         );
 
-        $plotOptions = array_merge($defaultPlotOptions, $plotOptions);
+        $options = array_merge($defaultOptions, $options);
 
         // Check for labels
-        if (!isset($plotOptions['x_label'])) {
-            $plotOptions['x_label'] = $this->reverseUnderscore($plotOptions['x_name']);
+        if (!isset($options['x_label'])) {
+            $options['x_label'] = $this->reverseUnderscore($options['x_name']);
         }
 
-        if (!isset($plotOptions['y_label'])) {
-            $plotOptions['y_label'] = $this->reverseUnderscore($plotOptions['y_name']);
+        if (!isset($options['y_label'])) {
+            $options['y_label'] = $this->reverseUnderscore($options['y_name']);
         }
 
-        $this->plotOptions = $plotOptions;
+        $this->options      = $options;
+        $this->localOptions = $localOptions;
     }
 
     private function reset()
@@ -95,16 +104,19 @@ class SimulationBuilder
         $this->points      = array();
         $this->centroids   = array();
         $this->hlm         = array();
-
-        $this->simulation = new Simulation();
-        $this->simulation->setPlotOptions($this->plotOptions);
     }
 
-    public function createSimulation($filename)
+    public function createSimulation($filename, array $options = array())
     {
         $this->reset();
+        $options = array_merge($this->options, $options);
 
+        // Can throw an exception if the file is not found
         $file = new \SplFileObject($filename);
+
+        $this->simulation = new Simulation($file->getFilename());
+        $this->simulation->setOptions($this->getSpecificOptions($file->getFilename()));
+
         $lastTime = -1;
         $step = 0;
 
@@ -265,8 +277,8 @@ class SimulationBuilder
      */
     private function addPoint(array $values)
     {
-        $x = $this->plotOptions['x_name'];
-        $y = $this->plotOptions['y_name'];
+        $x = $this->options['x_name'];
+        $y = $this->options['y_name'];
 
         if (isset($values[$x]) && isset($values[$y])) {
             $this->points[] = array($values[$x], $values[$y]);
@@ -326,5 +338,15 @@ class SimulationBuilder
         $values = array_merge($informations, $values);
 
         $this->simulation->addInformations($values['time'], $values);
+    }
+
+    private function getSpecificOptions($name)
+    {
+        if (isset($this->localOptions[$name])) {
+            // We have specific options for this simulaiton
+            return array_merge($this->options, $this->localOptions[$name]);
+        }
+
+        return $this->options;
     }
 }

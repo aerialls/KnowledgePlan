@@ -19,6 +19,14 @@ $app->get('/', function() use ($app) {
     return $app['twig']->render('homepage.html.twig');
 })->bind('homepage');
 
+$app->get('/experience/{name}', function($name) use ($app) {
+    // The controller don't check if the experience exists.
+    // Indeed, it will be the aim of the javascript to do it
+    return $app['twig']->render('experience.html.twig', array(
+        'name' => $name
+    ));
+})->bind('experience');
+
 $app->match('/options', function() use ($app) {
     $simulations = Finder::create()->files()
                                    ->in($app['kp.simulations_folder'])
@@ -51,7 +59,7 @@ $app->match('/options', function() use ($app) {
 
             // Is it a correct simulation output file?
             try {
-                $app['kp.simulation_manager']->get($newSimulation, true, false);
+                $app['kp.simulation_manager']->get(pathinfo($newSimulation, PATHINFO_FILENAME), true, false);
                 $correct = true;
             } catch (\Exception $e) {
                 $correct = false;
@@ -80,20 +88,24 @@ $app->match('/options', function() use ($app) {
     ));
 })->bind('options');
 
-$app->get('/js/experience.js', function() use ($app) {
+$app->get('/js/experience-{name}.js', function($name) use ($app) {
+    if (false === $app['kp.experience_manager']->has($name)) {
+        return $app->abort(404, sprintf('The experience "%s does not exist.', $name));
+    }
+
     // We use a Gzip for the content encoding to reduce
     // the size of the file. Futhermore, the Streamed response
     // speed up the result
-    $response = new GzipStreamedResponse(function() use ($app) {
+    $response = new GzipStreamedResponse(function() use ($app, $name) {
         echo $app['twig']->render('experience.js.twig', array(
-        'experience' => $app['kp.experience']
+        'experience' => $app['kp.experience_manager']->get($name)
         ));
     });
 
     $response->headers->set('Content-Type', 'text/javascript');
 
     return $response;
-});
+})->bind('experience_js');
 
 $app->error(function(\Exception $exception, $code) use ($app) {
     return $app['twig']->render('error.html.twig', array(

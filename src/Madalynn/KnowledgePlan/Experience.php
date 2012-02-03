@@ -13,6 +13,7 @@ namespace Madalynn\KnowledgePlan;
 
 use Madalynn\KnowledgePlan\Simulation\SimulationManager;
 use Madalynn\KnowledgePlan\Simulation\Simulation;
+use Madalynn\KnowledgePlan\Utils\MathUtils;
 
 class Experience
 {
@@ -33,36 +34,26 @@ class Experience
     protected $step;
 
     /**
-     * Constructor
-     *
-     * @param array $simulations Simulations. Can be a Simulation instance or
-     *                                        a path to the simulation output file
-     *
-     * @param SimulationManager $manager      A SimulationManager instance
-     *
-     * @throws \RuntimeException If the manager is unable to load a simulation
+     * The name of the experience
      */
-    public function __construct(array $simulations, SimulationManager $manager)
+    protected $name;
+
+    public function __construct($name, array $simulations, array $options = array())
     {
         if (0 === count($simulations)) {
             throw new \InvalidArgumentException('An experience must have at least one simulation.');
         }
 
-        $this->manager     = $manager;
         $this->simulations = array();
         $this->step        = 1;
         $this->minTime     = INF;
         $this->maxTime     = -INF;
+        $this->name        = $name;
+        $this->options     = $options;
 
-        foreach($simulations as $simulation) {
-            try {
-                $file = $manager->get($simulation);
-            } catch(\Exception $e) {
-                throw new \RuntimeException(sprintf('Unable to load the simulation "%s": %s', $simulation, $e->getMessage()));
-            }
-
-            $name = pathinfo($simulation, PATHINFO_FILENAME);
-            $this->addSimulation($name, $file);
+        // Simulations
+        foreach ($simulations as $simulation) {
+            $this->addSimulation($simulation);
         }
     }
 
@@ -72,14 +63,14 @@ class Experience
      * @param string $name
      * @param Simulation $simulation
      */
-    private function addSimulation($name, Simulation $simulation)
+    private function addSimulation(Simulation $simulation)
     {
         // Check for max time and min time and step
         $this->minTime = min($simulation->getMinTime(), $this->minTime);
         $this->maxTime = max($simulation->getMaxTime(), $this->maxTime);
         $this->step    = min($simulation->getStep(), $this->step);
 
-        $this->simulations[$name] = $simulation;
+        $this->simulations[$simulation->getName()] = $simulation;
     }
 
     public function getSimulations()
@@ -100,5 +91,15 @@ class Experience
     public function getMaxTime()
     {
         return $this->maxTime;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
     }
 }

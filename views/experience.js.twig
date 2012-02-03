@@ -5,6 +5,7 @@ var experience = new Object();
 experience.names = new Array();
 experience.simulations = new Object();
 
+experience.options = {{ experience.options|json_encode|raw }};
 experience.step = {{ experience.step }};
 experience.minTime = {{ experience.minTime }};
 experience.maxTime = {{ experience.maxTime }};
@@ -14,7 +15,7 @@ experience.maxTime = {{ experience.maxTime }};
     experience.names.push("{{ name }}");
 
     experience.simulations["{{ name }}"] = {
-        "options": {{ simulation.plotOptions|json_encode|raw }},
+        "options": {{ simulation.options|json_encode|raw }},
         "plots": {{ simulation.plots|json_encode|raw }},
         "step": {{ simulation.step }},
         "min_time": {{ simulation.minTime }},

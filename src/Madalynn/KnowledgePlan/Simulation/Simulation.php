@@ -24,11 +24,11 @@ class Simulation
     protected $plots;
 
     /**
-     * The options for all the plots
+     * Options
      *
-     * @var array $plotOptions
+     * @var array $options
      */
-    protected $plotOptions;
+    protected $options;
 
     /**
      * The step (in sec)
@@ -47,12 +47,18 @@ class Simulation
      */
     protected $maxTime;
 
-    public function __construct()
+    /**
+     * The name of the simulation
+     */
+    protected $name;
+
+    public function __construct($name)
     {
-        $this->plotOptions  = array();
+        $this->options  = array();
         $this->informations = array();
         $this->plots        = array();
 
+        $this->name    = $name;
         $this->step    = 1;
         $this->minTime = INF;
         $this->maxTime = -INF;
@@ -97,14 +103,14 @@ class Simulation
         return $this->step;
     }
 
-    public function setPlotOptions(array $options)
+    public function setOptions(array $options)
     {
-        $this->plotOptions = $options;
+        $this->options = $options;
     }
 
-    public function getPlotOptions()
+    public function getOptions()
     {
-        return $this->plotOptions;
+        return $this->options;
     }
 
     /**
@@ -123,16 +129,21 @@ class Simulation
         return $this->maxTime;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public static function __set_state($data)
     {
-        $simulation = new Simulation();
+        $simulation = new Simulation($data['name']);
 
         $simulation->informations = $data['informations'];
-        $simulation->plots = $data['plots'];
-        $simulation->minTime = $data['minTime'];
-        $simulation->maxTime = $data['maxTime'];
-        $simulation->step = $data['step'];
-        $simulation->plotOptions = $data['plotOptions'];
+        $simulation->plots        = $data['plots'];
+        $simulation->minTime      = $data['minTime'];
+        $simulation->maxTime      = $data['maxTime'];
+        $simulation->step         = $data['step'];
+        $simulation->options      = $data['options'];
 
         return $simulation;
     }

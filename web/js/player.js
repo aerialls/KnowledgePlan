@@ -1,3 +1,18 @@
+
+/**
+ * See http://snook.ca/archives/javascript/testing_for_a_v
+ */
+function oc(a)
+{
+    var o = {};
+    for(var i = 0 ; i < a.length ; i++) {
+        o[a[i]]='';
+    }
+
+    return o;
+}
+
+
 const PLAYER_PLAY = 0;
 const PLAYER_PAUSE = 1;
 
@@ -71,6 +86,9 @@ Player.prototype.initialize = function()
         }
     });
 
+    // Change the title in the menu
+    $('.topbar .brand').html(experience.options['title']);
+
     this.backward();
 }
 
@@ -112,27 +130,38 @@ Player.prototype.displayInformations = function(name, values)
 Player.prototype.displayPlot = function(name, values)
 {
     var simulation = experience.simulations[name];
+    var plots      = new Array();
 
-    $.plot($('#simul-' + name + ' .chart'), [
-        {
+    // The options allows to disable a plot
+
+    if ('points' in oc(experience.options['plots'])) {
+        plots.push({
             data: values['points'],
             points: {show: true},
             color: '#ffd658',
             label: 'Points'
-        },
-        {
+        });
+    }
+
+    if ('centroids' in oc(experience.options['plots'])) {
+        plots.push({
             data: values['centroids'],
             points: {show: true},
             color: 8,
             label: 'Centroids'
-        },
-        {
+        });
+    }
+
+    if ('hlm' in oc(experience.options['plots'])) {
+        plots.push({
             data: values['hlm'],
             lines: {show: true},
             color: 7,
             label: 'Queue HLM'
-        }
-    ],{
+        });
+    }
+
+    $.plot($('#simul-' + name + ' .chart'), plots, {
         grid:  {hoverable: true},
         xaxis: {
             min: simulation['options']['x_min'],
@@ -210,6 +239,7 @@ Player.prototype.loop = function()
 
     var _player = this;
     setTimeout(function() {
+        // Asynchronous call
         _player.move(nextStep);
     });
 
@@ -338,7 +368,7 @@ $(document).ready(function() {
     // Get the experience (ajax loading)
     $(document).ajaxError(function(e, jqxhr, settings, exception) {
         if (settings.dataType == 'script') {
-            alert('Unable to load the simulation.');
+            alert('Unable to load the simulation "' + file + '".');
             $.unblockUI();
         }
     });
@@ -351,7 +381,7 @@ $(document).ready(function() {
         $.unblockUI();
     });
 
-    $.getScript('/js/experience.js', function(data, textStatus){
+    $.getScript(file, function(data, textStatus){
         player.initialize();
     });
 });

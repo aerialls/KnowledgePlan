@@ -26,10 +26,13 @@ class SimulationManager
      */
     protected $builder;
 
-    public function __construct(SimulationBuilder $builder, CacheInterface $cache)
+    protected $folder;
+
+    public function __construct(SimulationBuilder $builder, CacheInterface $cache, $folder = null)
     {
         $this->cache = $cache;
         $this->builder = $builder;
+        $this->folder = $folder;
     }
 
     /**
@@ -38,14 +41,15 @@ class SimulationManager
      * If the simulation does not exist yet in the
      * cache, the loader is call to retrieve it
      *
-     * @param string  $filename The filename
-     * @param Boolean $force    If true, the cache won't be called
-     * @param Boolean $store    Store in the cache
+     * @param string  $name  The name of the simulation
+     * @param Boolean $force If true, the cache won't be called
+     * @param Boolean $store Store in the cache
      *
      * @return Madalynn\KnowledgePlan\Simulation
      */
-    public function get($filename, $force = false, $store = true)
+    public function get($name, $force = false, $store = true)
     {
+        $filename = $this->folder.DIRECTORY_SEPARATOR.$name;
         if (false === $force && $this->cache->has($filename)) {
             return $this->cache->get($filename);
         }

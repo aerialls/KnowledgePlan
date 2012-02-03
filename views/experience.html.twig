@@ -6,6 +6,10 @@
     <script type="text/javascript" src="/js/jquery.blockui.js"></script>
     <script type="text/javascript" src="/js/flot/jquery.flot.min.js"></script>
     <script type="text/javascript" src="/js/flot/jquery.flot.axislabels.js"></script>
+    <script type="text/javascript">
+        // Simulation file
+        var file = "{{ path('experience_js', {'name': name}) }}";
+    </script>
     <script type="text/javascript" src="/js/player.js"></script>
 {% endblock %}
 
@@ -28,11 +32,11 @@
                         </tr>
                         <tr>
                             <td><strong>Accepted flows</strong></td>
-                            <td><span class="label-accepted-flows" class="color-green"></span></td>
+                            <td><span class="label-accepted-flows color-green"></span></td>
                         </tr>
                         <tr>
                             <td><strong>Rejected flows</strong></td>
-                            <td><span class="label-rejected-flows" class="color-red"></span></td>
+                            <td><span class="label-rejected-flows color-red"></span></td>
                         </tr>
                         <tr>
                             <td><strong>Waiting time</strong></td>

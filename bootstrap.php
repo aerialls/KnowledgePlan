@@ -28,7 +28,21 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 // Knowledge Plan
 $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider(), array(
-    'kp.cache_folder'       => __DIR__.'/cache',
-    'kp.simulations_folder' => __DIR__.'/simulations',
-    'kp.plot_options'       => array()
+    'kp.cache_folder'        => __DIR__.'/cache',
+    'kp.simulations_folder'  => __DIR__.'/simulations',
+    'kp.options'             => array(
+        'x_max' => 10
+    ),
+    'kp.simulation_options' => array(
+        'default' => array(
+            'x_max' => 15
+        )
+    ),
+    'kp.experiences'         => array(
+        'default'        => array(
+            'title'       => 'My custom simulation',
+            'simulations' => array('default', 'prout'),
+            'plots'       => array('centroids') // 'hlm', 'centroids' or 'points'
+        )
+    )
 ));
