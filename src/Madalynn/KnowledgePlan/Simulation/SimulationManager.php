@@ -54,7 +54,7 @@ class SimulationManager
             return $this->cache->get($filename);
         }
 
-        $simulation = $this->builder->createSimulation($filename);
+        $simulation = $this->builder->create($filename);
 
         // Add a new entry to the cache
         if (true === $store) {

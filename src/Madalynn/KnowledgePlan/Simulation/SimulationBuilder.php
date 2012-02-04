@@ -106,7 +106,7 @@ class SimulationBuilder
         $this->hlm         = array();
     }
 
-    public function createSimulation($filename, array $options = array())
+    public function create($filename, array $options = array())
     {
         $this->reset();
         $options = array_merge($this->options, $options);

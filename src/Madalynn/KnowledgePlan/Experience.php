@@ -60,8 +60,7 @@ class Experience
     /**
      * Add a simulation to the experience
      *
-     * @param string $name
-     * @param Simulation $simulation
+     * @param Simulation $simulation The simulation
      */
     private function addSimulation(Simulation $simulation)
     {

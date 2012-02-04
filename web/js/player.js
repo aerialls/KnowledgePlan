@@ -1,5 +1,11 @@
 
 /**
+ * If the value of name matches any of the keys in the object,
+ * it returns true. Now, I personally find that looks a little
+ * ugly since we have to assign values to each of our keys
+ * in order to get this to work. So, I made a quick function
+ * that simply converts an array into an object.
+ *
  * See http://snook.ca/archives/javascript/testing_for_a_v
  */
 function oc(a)
@@ -11,7 +17,6 @@ function oc(a)
 
     return o;
 }
-
 
 const PLAYER_PLAY = 0;
 const PLAYER_PAUSE = 1;
@@ -68,27 +73,32 @@ Player.prototype.initialize = function()
         return false;
     });
 
+    // onChange event
     $(":range").change(function(event, value) {
-	_player.move(value);
+        _player.move(value);
     });
 
     $(document).keydown(function(event) {
         switch (event.keyCode) {
+            // Space
             case 32:
                 _player.changeState();
                 break;
+            // <-
             case 37:
                 _player.move(_player.calculateTime(_player.getPosition() - 100 * experience.step));
                 break;
+            // =>
             case 39:
                 _player.move(_player.calculateTime(_player.getPosition() + 100 * experience.step));
                 break;
         }
     });
 
-    // Change the title in the menu
+    // Change the title in the topbar
     $('.topbar .brand').html(experience.options['title']);
 
+    // and finaly, reset the player
     this.backward();
 }
 
