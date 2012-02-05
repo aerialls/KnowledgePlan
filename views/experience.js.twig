@@ -1,8 +1,6 @@
 {# This file represents the simulation #}
 
 var experience = new Object();
-
-experience.names = new Array();
 experience.simulations = new Object();
 
 experience.options = {{ experience.options|json_encode|raw }};
@@ -12,8 +10,6 @@ experience.maxTime = {{ experience.maxTime }};
 
 {% for name,simulation in experience.simulations %}
 {% spaceless %}
-    experience.names.push("{{ name }}");
-
     experience.simulations["{{ name }}"] = {
         "options": {{ simulation.options|json_encode|raw }},
         "plots": {{ simulation.plots|json_encode|raw }},

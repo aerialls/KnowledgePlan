@@ -27,6 +27,16 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
+        if (!is_dir($app['kp.cache_folder'])) {
+            // Creation of the cache folder
+            mkdir($app['kp.cache_folder']);
+        }
+
+        if (!is_dir($app['kp.simulations_folder'])) {
+            // Creation of the simulations folder
+            mkdir($app['kp.simulations_folder']);
+        }
+
         $app['kp.simulation_manager'] = $app->share(function() use ($app) {
             // If the application is in dry run mode
             // Then the cache can't be used to store

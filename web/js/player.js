@@ -39,14 +39,16 @@ Player.prototype.initialize = function()
     });
 
     // For each simulations
-    for (var i = 0 ; i < experience.names.length ; i++) {
+    for (var i = 0 ; i < experience.options['simulations'].length ; i++) {
+
+        var name = experience.options['simulations'][i];
         $('#template').clone()
-                      .attr('id', 'simul-' + experience.names[i])
-                      .attr('data-name', experience.names[i])
+                      .attr('id', 'simul-' + name)
+                      .attr('data-name', name)
                       .attr('data-id', i)
                       .appendTo('#experience');
 
-        $('#simul-' + experience.names[i] + ' .title').html(experience.names[i]);
+        $('#simul-' + name + ' .title').html(name);
     }
 
     var _player = this;
@@ -88,7 +90,7 @@ Player.prototype.initialize = function()
             case 37:
                 _player.move(_player.calculateTime(_player.getPosition() - 100 * experience.step));
                 break;
-            // =>
+            // ->
             case 39:
                 _player.move(_player.calculateTime(_player.getPosition() + 100 * experience.step));
                 break;
@@ -287,8 +289,8 @@ Player.prototype.move = function(time)
         this.setPosition(time);
     }
 
-    for (var i = 0 ; i < experience.names.length ; i++) {
-        var name       = experience.names[i];
+    for (var i = 0 ; i < experience.options['simulations'].length ; i++) {
+        var name       = experience.options['simulations'][i];
         var simulation = experience.simulations[name];
 
         // Informations

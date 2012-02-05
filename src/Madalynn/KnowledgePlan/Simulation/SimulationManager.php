@@ -67,10 +67,12 @@ class SimulationManager
     /**
      * Removes a simulation from the cache
      *
-     * @param type $filename The filename
+     * @param type $name The name of the simulation
      */
-    public function remove($filename)
+    public function remove($name)
     {
+        $filename = $this->folder.DIRECTORY_SEPARATOR.$name;
+
         $this->cache->remove($filename);
     }
 }

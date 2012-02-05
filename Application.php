@@ -78,6 +78,12 @@ $app->match('/options', function() use ($app) {
 
                 rename($newSimulation, $simulation);
                 $app['session']->setFlash('success', sprintf('The simulation output "%s" has been correctly updated.', $name));
+
+                // Force creation of the cache file
+                $app['kp.simulation_manager']->get($name);
+
+                // Reset form data
+                $form->setData(array('name' => ''));
             }
         }
     }
@@ -116,7 +122,9 @@ $app->error(function(\Exception $exception, $code) use ($app) {
 
 $app->get('/remove/{filename}', function($filename) use ($app) {
    $path = $app['kp.simulations_folder'].'/'.$filename;
+
    unlink($path);
+   $app['kp.simulation_manager']->remove($filename);
 
    // Flash
    $app['session']->setFlash('success', sprintf('The simulation "%s" has been correctly removed.', $filename));
