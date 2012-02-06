@@ -42,7 +42,7 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
         'default' => array(
             'title'       => 'My custom simulation',
             'simulations' => array('default', 'prout'),
-            'plots'       => array('centroids') // 'hlm', 'centroids' or 'points'
+            'plots'       => array('delay_max', 'points') // 'hlm', 'centroids', 'delay_max' or 'points'
         )
     )
 ));

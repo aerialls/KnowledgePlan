@@ -115,7 +115,6 @@ class SimulationBuilder
         $file = new \SplFileObject($filename);
 
         $this->simulation = new Simulation($file->getFilename());
-        $this->simulation->setOptions($this->getSpecificOptions($file->getFilename()));
 
         $lastTime = -1;
         $step = 0;
@@ -172,6 +171,8 @@ class SimulationBuilder
             'centroids' => array(),
             'hlm'       => array()
         ));
+
+        $this->simulation->setOptions($this->getSpecificOptions($file->getFilename()));
 
         return $this->simulation;
     }
