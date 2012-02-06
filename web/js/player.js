@@ -148,19 +148,12 @@ Player.prototype.displayPlot = function(name, values)
     // The options allows to disable a plot
 
     if ('points' in oc(experience.options['plots'])) {
-        var options = {
+        plots.push({
             data: values['points'],
             points: {show: true},
             color: '#ffd658',
             label: 'Points'
-        };
-
-        // Change the color for the points up to the limit
-        if ('delay_max' in oc(experience.options['plots'])) {
-            options['threshold'] = { below: delayMax, color: '#ca9c0e' };
-        }
-
-        plots.push(options);
+        });
     }
 
     if ('centroids' in oc(experience.options['plots'])) {
@@ -172,21 +165,22 @@ Player.prototype.displayPlot = function(name, values)
         });
     }
 
+    if ('delay_max' in oc(experience.options['plots'])) {
+        plots.push({
+            data: [[simulation['options']['x_min'], delayMax], [simulation['options']['x_max'], delayMax]],
+            lines: {show: true},
+            color: '#c7c7c7',
+            shadowSize: 0,
+            label: 'Max delay'
+        });
+    }
+
     if ('hlm' in oc(experience.options['plots'])) {
         plots.push({
             data: values['hlm'],
             lines: {show: true},
             color: 7,
             label: 'Queue HLM'
-        });
-    }
-
-    if ('delay_max' in oc(experience.options['plots'])) {
-        plots.push({
-            data: [[simulation['options']['x_min'], delayMax], [simulation['options']['x_max'], delayMax]],
-            lines: {show: true},
-            color: '#999999',
-            shadowSize: 0
         });
     }
 
