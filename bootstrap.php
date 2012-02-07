@@ -40,9 +40,14 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
     ),
     'kp.experiences' => array(
         'knowledgeplan' => array(
-            'title'       => 'My custom simulation',
-            'simulations' => array('default', 'prout'),
+            'title'       => 'Modelling the Knowledga Plan',
+            'simulations' => array('knowledge_plan'),
             'plots'       => array('centroids', 'points', 'hlm') // 'hlm', 'centroids', 'delay_max' or 'points'
+        ),
+        'performance' => array(
+            'title'       => 'Performance evaluation',
+            'simulations' => array('knowledge_plan', 'default'),
+            'plots'       => array('points', 'delay_max') // 'hlm', 'centroids', 'delay_max' or 'points'
         )
     )
 ));
