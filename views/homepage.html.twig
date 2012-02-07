@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Experiences</h1>
+
+    <ul>
+        {% for name,experience in experiences %}
+            {% set title = experience.title ? experience.title : 'No title' %}
+            <li>{{ title }} - <a href="{{ path('experience', {'name':name}) }}">Show</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

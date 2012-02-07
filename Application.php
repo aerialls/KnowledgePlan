@@ -16,7 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Madalynn\KnowledgePlan\Symfony\GzipStreamedResponse;
 
 $app->get('/', function() use ($app) {
-    return $app['twig']->render('homepage.html.twig');
+    return $app['twig']->render('homepage.html.twig', array(
+        'experiences' => $app['kp.experiences']
+    ));
 })->bind('homepage');
 
 $app->get('/experience/{name}', function($name) use ($app) {
