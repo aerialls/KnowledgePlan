@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Madalynn\KnowledgePlan;
+namespace Madalynn\KnowledgePlan\Experience;
 
 use Madalynn\KnowledgePlan\Simulation\SimulationManager;
 use Madalynn\KnowledgePlan\Simulation\Simulation;

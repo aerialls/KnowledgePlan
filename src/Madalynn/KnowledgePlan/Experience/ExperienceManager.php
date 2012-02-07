@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Madalynn\KnowledgePlan;
+namespace Madalynn\KnowledgePlan\Experience;
 
 class ExperienceManager
 {

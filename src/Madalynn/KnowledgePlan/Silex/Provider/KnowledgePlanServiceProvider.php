@@ -14,8 +14,8 @@ namespace Madalynn\KnowledgePlan\Silex\Provider;
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 
-use Madalynn\KnowledgePlan\ExperienceBuilder;
-use Madalynn\KnowledgePlan\ExperienceManager;
+use Madalynn\KnowledgePlan\Experience\ExperienceBuilder;
+use Madalynn\KnowledgePlan\Experience\ExperienceManager;
 use Madalynn\KnowledgePlan\Simulation\SimulationManager;
 use Madalynn\KnowledgePlan\Simulation\SimulationBuilder;
 use Madalynn\KnowledgePlan\Cache\FilesystemCache;
