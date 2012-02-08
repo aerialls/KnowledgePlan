@@ -58,6 +58,19 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
             $experiences = $app['kp.experiences'];
 
             foreach ($experiences as $name => $options) {
+                // Check for no simulations
+                if (empty($options['simulations'])) {
+                    $files = Finder::create()->files()
+                                             ->in($app['kp.simulations_folder'])
+                                             ->getIterator();
+
+                    $simulations = array();
+                    foreach ($files as $file) {
+                        $simulations[] = $file->getFilename();
+                    }
+
+                    $options['simulations'] = $simulations;
+                }
                 $experience = $app['kp.experience_builder']->create($name, $options);
                 $manager->add($experience);
             }
