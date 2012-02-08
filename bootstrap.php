@@ -31,16 +31,13 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
     'kp.cache_folder'        => __DIR__.'/cache',
     'kp.simulations_folder'  => __DIR__.'/simulations',
     'kp.options'             => array(
-        'x_max' => 10
+        'x_label' => 'Outpute rate (packet/ms)',
+        'y_label' => 'Delay (ms)'
     ),
-    'kp.simulation_options' => array(
-        'default' => array(
-            'x_max' => 15
-        )
-    ),
+    'kp.simulation_options' => array(),
     'kp.experiences' => array(
         'knowledgeplan' => array(
-            'title'       => 'Modelling the Knowledga Plan',
+            'title'       => 'Modelling the Knowledge Plan',
             'simulations' => array('knowledge_plan'),
             'plots'       => array('centroids', 'points', 'hlm') // 'hlm', 'centroids', 'delay_max' or 'points'
         ),

@@ -48,7 +48,7 @@ Player.prototype.initialize = function()
                       .attr('data-id', i)
                       .appendTo('#experience');
 
-        $('#simul-' + name + ' .title').html(name);
+        $('#simul-' + name + ' .title').html(name.replace('_', ' '));
     }
 
     var _player = this;
@@ -152,7 +152,7 @@ Player.prototype.displayPlot = function(name, values)
             data: values['points'],
             points: {show: true},
             color: '#ffd658',
-            label: 'Points'
+            label: 'Measuring points'
         });
     }
 
@@ -171,7 +171,7 @@ Player.prototype.displayPlot = function(name, values)
             lines: {show: true},
             color: '#c7c7c7',
             shadowSize: 0,
-            label: 'Max delay'
+            label: 'Target QoS'
         });
     }
 
@@ -180,7 +180,7 @@ Player.prototype.displayPlot = function(name, values)
             data: values['hlm'],
             lines: {show: true},
             color: 7,
-            label: 'Queue HLM'
+            label: 'M/G/1 Queue'
         });
     }
 
