@@ -51,6 +51,12 @@ Player.prototype.initialize = function()
         $('#simul-' + name + ' .title').html(name.replace('_', ' '));
     }
 
+    // Show fields
+    for (var i = 0 ; i < experience.options['fields'].length ; i++) {
+        var field = experience.options['fields'][i];
+        $('.' + field).show();
+    }
+
     var _player = this;
     this.api = $(':range').data('rangeinput');
 
@@ -134,6 +140,20 @@ Player.prototype.displayInformations = function(name, values)
     $('#simul-' + name + ' .label-outputrate-average').html(values['outputrate_average'] + ' packet/ms');
     $('#simul-' + name + ' .label-timeslot-with-qos').html(values['timeslot_with_qos'] + ' %');
     $('#simul-' + name + ' .label-timeslot-without-qos').html(values['timeslot_without_qos'] + ' %');
+
+    // Knowledge Plan
+    var kp = values['knowledge_plan'];
+    $('#simul-' + name + ' .label-knowledge-plan-type').html(kp['type']);
+    $('#simul-' + name + ' .label-knowledge-plan-mu').html(kp['mu']);
+    $('#simul-' + name + ' .label-knowledge-plan-cv').html(kp['cv']);
+    $('#simul-' + name + ' .label-knowledge-plan-off').html(kp['off']);
+
+    if (kp['k'] == null) {
+        $('#simul-' + name + ' .label-knowledge-plan-k').parent().hide();
+    } else {
+        $('#simul-' + name + ' .label-knowledge-plan-k').html(kp['k']).parent().show();
+    }
+
 
 }
 

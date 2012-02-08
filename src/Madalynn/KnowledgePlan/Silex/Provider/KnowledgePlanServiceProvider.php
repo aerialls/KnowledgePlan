@@ -71,6 +71,7 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
 
                     $options['simulations'] = $simulations;
                 }
+
                 $experience = $app['kp.experience_builder']->create($name, $options);
                 $manager->add($experience);
             }

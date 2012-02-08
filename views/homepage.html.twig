@@ -6,7 +6,7 @@
     <ul>
         {% for name,experience in experiences %}
             {% set title = experience.title ? experience.title : 'No title' %}
-            <li>{{ title }} - <a href="{{ path('experience', {'name':name}) }}">Show</a></li>
+            <li>{{ title }} - <a href="{{ path('experience', {'name':name}) }}">show</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

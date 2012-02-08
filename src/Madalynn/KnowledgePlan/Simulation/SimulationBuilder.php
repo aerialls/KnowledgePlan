@@ -62,6 +62,14 @@ class SimulationBuilder
      * @var array $averages
      */
     protected $averages;
+
+    /**
+     * Informations about the last HLM Queue
+     *
+     * @var array $knowledgePlan
+     */
+    protected $knowledgePlan;
+
     /**
      * Constructor
      *
@@ -113,6 +121,14 @@ class SimulationBuilder
             'delay'                => 0,
             'timeslot_with_qos'    => 100,
             'timeslot_without_qos' => 0,
+        );
+
+        $this->knowledgePlan = array(
+            'type' => 'Unknown',
+            'mu'   => 0,
+            'cv'   => 0,
+            'k'    => null,
+            'off'  => 0
         );
 
         $this->points      = array();
@@ -188,6 +204,29 @@ class SimulationBuilder
                 $this->flowsAccepted++;
             } elseif (false !== strpos($line, 'REJECT')) {
                 $this->flowsRejected++;
+            } elseif (0 === strpos($line, 'refDelay')) {
+                // New delay max
+                $delayMax = substr($line, 11, 13 - strlen($line));
+                $this->options['delay_max'] = $delayMax;
+            } elseif(0 === strpos($line, 'refQueue')) {
+                // M/G/1 definition
+                $hlm   = array();
+                $parts = explode(' ', $line);
+
+                $hlm['mu'] = $parts[4];
+                $hlm['cv'] = $parts[5];
+
+                if ($parts[2] == 34) {
+                    $hlm['type'] = 'M/G/1';
+                    $hlm['off'] = $parts[6];
+                    $hlm['k'] = null;
+                } else {
+                    $hlm['type'] = 'M/G/1/k';
+                    $hlm['k'] = $parts[6];
+                    $hlm['off'] = $parts[7];
+                }
+
+                $this->knowledgePlan = $hlm;
             }
         }
 
@@ -375,7 +414,8 @@ class SimulationBuilder
             'outputrate_average'   => $this->averages['outputrate'],
             'delay_average'        => $this->averages['delay'],
             'timeslot_with_qos'    => $this->averages['timeslot_with_qos'],
-            'timeslot_without_qos' => $this->averages['timeslot_without_qos']
+            'timeslot_without_qos' => $this->averages['timeslot_without_qos'],
+            'knowledge_plan'       => $this->knowledgePlan
         );
 
         // Merge with the default options

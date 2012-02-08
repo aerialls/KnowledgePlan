@@ -25,7 +25,8 @@ class ExperienceBuilder
     public function create($name, array $options)
     {
         $options = array_merge(array(
-            'title' => 'Knowledge Plan'
+            'title'  => 'Knowledge Plan',
+            'fields' => array('time')
         ), $options);
 
         if (!isset($options['simulations']) || empty($options['simulations'])) {

@@ -140,3 +140,15 @@ body {
 #template {
     display: none;
 }
+
+.informations tr {
+    display: none;
+}
+
+.informations ul {
+    margin-left: 0 !important;
+}
+
+.informations li {
+    color: #404040;
+}

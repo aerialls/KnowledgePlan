@@ -74,7 +74,7 @@ $app->match('/options', function() use ($app) {
             } else {
                 // The file is correct
                 if (true === file_exists($simulation)) {
-                    $app['kp.simulation_manager']->remove($simulation);
+                    $app['kp.simulation_manager']->remove($name);
                     unlink($simulation);
                 }
 
