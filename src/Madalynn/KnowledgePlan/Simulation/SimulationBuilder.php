@@ -54,12 +54,14 @@ class SimulationBuilder
     protected $flowsRejected;
 
     /**
-     * @var array $outputrates
+     * @var array $values
      */
-    protected $outputrates;
+    protected $values;
 
-    protected $outputrateAverage;
-
+    /**
+     * @var array $averages
+     */
+    protected $averages;
     /**
      * Constructor
      *
@@ -95,12 +97,24 @@ class SimulationBuilder
 
     private function reset()
     {
-        $this->flowsAccepted     = 0;
-        $this->flowsRejected     = 0;
-        $this->currentTime       = 0;
-        $this->outputrateAverage = 0;
+        $this->flowsAccepted      = 0;
+        $this->flowsRejected      = 0;
+        $this->currentTime        = 0;
 
-        $this->outputrates = array();
+        $this->values = array(
+            'outputrate'           => array(),
+            'delay'                => array(),
+            'timeslot_with_qos'    => 0,
+            'timeslot_without_qos' => 0
+        );
+
+        $this->averages = array(
+            'outputrate'           => 0,
+            'delay'                => 0,
+            'timeslot_with_qos'    => 100,
+            'timeslot_without_qos' => 0,
+        );
+
         $this->points      = array();
         $this->centroids   = array();
         $this->hlm         = array();
@@ -130,7 +144,20 @@ class SimulationBuilder
 
                 // Update the outputrate average
                 if (isset($values['outputrate'])) {
-                    $this->outputrates[] = $values['outputrate'];
+                    $this->values['outputrate'][] = $values['outputrate'];
+                }
+
+                // Update the delay average
+                if (isset($values['delay'])) {
+                    $delay    = $values['delay'];
+                    $maxDelay = $this->options['delay_max'];
+
+                    $this->values['delay'][] = $delay;
+                    if ($delay > $maxDelay) {
+                        $this->values['timeslot_without_qos']++;
+                    } else {
+                        $this->values['timeslot_with_qos']++;
+                    }
                 }
 
                 $this->addPoint($values);
@@ -295,13 +322,20 @@ class SimulationBuilder
             throw new \RuntimeException('Unable to create a new plot if "centroids" or "hlm" are empty.');
         }
 
-        // We need to update the outputrate average
-        $average = 0;
-        if (0 !== $length = count($this->outputrates)) {
-            $average = array_sum($this->outputrates) / $length;
+        // Same code for outputrage and delay average
+        foreach (array('outputrate', 'delay') as $name) {
+            $average = 0;
+            if (0 !== $length = count($this->values[$name])) {
+                $average = array_sum($this->values[$name]) / $length;
+            }
+
+            $this->averages[$name] = $average;
         }
 
-        $this->outputrateAverage = $average;
+        // % for timeslot
+        $total = $this->values['timeslot_with_qos'] + $this->values['timeslot_without_qos'];
+        $this->averages['timeslot_with_qos'] = ($this->values['timeslot_with_qos'] / $total) * 100;
+        $this->averages['timeslot_without_qos'] = ($this->values['timeslot_without_qos'] / $total) * 100;
 
         $informations = array(
             'points'    => $this->points,
@@ -314,7 +348,13 @@ class SimulationBuilder
         $this->points      = array();
         $this->centroids   = array();
         $this->hlm         = array();
-        $this->outputrates = array();
+
+        $this->values = array(
+            'outputrate'           => array(),
+            'delay'                => array(),
+            'timeslot_with_qos'    => 0,
+            'timeslot_without_qos' => 0
+        );
     }
 
     private function reverseUnderscore($text)
@@ -330,9 +370,12 @@ class SimulationBuilder
     private function addInformations(array $values)
     {
         $informations = array(
-            'flows_accepted'     => $this->flowsAccepted,
-            'flows_rejected'     => $this->flowsRejected,
-            'outputrate_average' => $this->outputrateAverage
+            'flows_accepted'       => $this->flowsAccepted,
+            'flows_rejected'       => $this->flowsRejected,
+            'outputrate_average'   => $this->averages['outputrate'],
+            'delay_average'        => $this->averages['delay'],
+            'timeslot_with_qos'    => $this->averages['timeslot_with_qos'],
+            'timeslot_without_qos' => $this->averages['timeslot_without_qos']
         );
 
         // Merge with the default options

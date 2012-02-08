@@ -54,7 +54,7 @@ class Simulation
 
     public function __construct($name)
     {
-        $this->options  = array();
+        $this->options      = array();
         $this->informations = array();
         $this->plots        = array();
 
@@ -111,6 +111,11 @@ class Simulation
     public function getOptions()
     {
         return $this->options;
+    }
+
+    public function getOption($name)
+    {
+        return isset($this->options[$name]) ? $this->options[$name] : null;
     }
 
     /**

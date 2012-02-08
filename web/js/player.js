@@ -130,10 +130,11 @@ Player.prototype.displayInformations = function(name, values)
     $('#simul-' + name + ' .label-time').html(values['time'] + ' sec');
     $('#simul-' + name + ' .label-accepted-flows').html(values['flows_accepted']);
     $('#simul-' + name + ' .label-rejected-flows').html(values['flows_rejected']);
-    $('#simul-' + name + ' .label-waiting-time').html(values['waiting_time'] + ' ns');
-    $('#simul-' + name + ' .label-outputrate').html(values['outputrate']);
-    $('#simul-' + name + ' .label-outputrate-average').html(values['outputrate_average']);
-    $('#simul-' + name + ' .label-delay').html(values['delay']);
+    $('#simul-' + name + ' .label-delay-average').html(values['delay_average'] + ' ms');
+    $('#simul-' + name + ' .label-outputrate-average').html(values['outputrate_average'] + ' packet/ms');
+    $('#simul-' + name + ' .label-timeslot-with-qos').html(values['timeslot_with_qos'] + ' %');
+    $('#simul-' + name + ' .label-timeslot-without-qos').html(values['timeslot_without_qos'] + ' %');
+
 }
 
 /**
