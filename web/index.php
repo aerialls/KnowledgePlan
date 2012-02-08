@@ -9,8 +9,6 @@
  * file that was distributed with this source code.
  */
 
-ini_set('memory_limit', '-1');
-
 $app = require_once __DIR__.'/../Application.php';
 
 $app->run();
