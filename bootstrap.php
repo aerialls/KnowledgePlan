@@ -34,7 +34,11 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
         'x_label' => 'Outpute rate (packet/ms)',
         'y_label' => 'Delay (ms)'
     ),
-    'kp.simulation_options' => array(),
+    'kp.simulation_options' => array(
+        'knowledge_plan' => array(
+            'x_max' => 8
+        )
+    ),
     'kp.experiences' => array(
         'knowledgeplan' => array(
             'title'       => 'Modelling the Knowledge Plan',

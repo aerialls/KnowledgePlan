@@ -36,19 +36,45 @@ All the configuration is done in the `bootstrap.php` with the
 ```
 // Knowledge Plan
 $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider(), array(
-    'kp.dry_run'             => false,
     'kp.cache_folder'        => __DIR__.'/cache',
     'kp.simulations_folder'  => __DIR__.'/simulations',
-    'kp.simulations'         => array('default', 'poisson', 'etc')
-    'kp.plot_options'        => array(
+    'kp.options'             => array(
         'x_min'   => 0,
-        'x_max'   => 10,
+        'x_max'   => 8,
         'y_min'   => 0,
         'y_max'   => 60,
         'x_name'  => 'outputrate',
         'y_name'  => 'delay',
-        'x_label' => 'Output rate',
+        'x_label' => 'Outpute rate (packet/ms)',
         'y_label' => 'Delay (ms)'
+    ),
+    'kp.simulation_options' => array(
+        'knowledge_plan' => array(
+            'x_max' => 8,
+            'y_max' => 100
+        ),
+        'other_simulation' => array(
+            'x_name' => 'foo',
+            'y_name' => 'bar'
+        )
+    ),
+    'kp.experiences' => array(
+        'knowledgeplan' => array(
+            'title'       => 'Modelling the Knowledge Plan',
+            'simulations' => array('knowledge_plan'),
+            'plots'       => array('centroids', 'points', 'hlm'), // 'hlm', 'centroids', 'delay_max' or 'points'
+            'fields'      => array('time', 'knowledge-plan')
+        ),
+        'performance' => array(
+            'title'       => 'Performance evaluation',
+            'simulations' => array(),
+            'plots'       => array('points', 'delay_max'), // 'hlm', 'centroids', 'delay_max' or 'points'
+            'fields'      => array(
+                'time', 'outputrate-average', 'delay-average',
+                'accepted-flows', 'rejected-flows', 'timeslot-with-qos',
+                'timeslot-without-qos'
+            )
+        )
     )
 ));
 ```
@@ -58,9 +84,7 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
 up the following requests. If you want to always check the output file to
 create the simulation and never call the cache, set this option to true.
 The cache will always be ignored.
-* __kp.simulations__: An array of names of files (in the simulation
-folder) to display.
-* __kp.plot_options__: Options for the plot
+* __kp.options__: Options for _ALL_ the plot
     * __x_min__
     * __x_max__
     * __x_name__: The name of the field in the output file
@@ -71,3 +95,13 @@ folder) to display.
     * __y_name__: The name of the field in the output file
     * __y_label__: The name of the label. If this field is left blank, the
     `y_name` field is using
+* __kp.simulation_options__: Options for a specific simulation (associative
+array). See `kp.options` for the list (it's the same)
+* __kp.experiences__: The list of all the experiences
+    * __title__: The title of the experience (will be in the black title bar)
+    * __simulations__: An array of simulations
+    * __plots__: The list of plots to be displayed ('points', 'centroids', 'hlm'
+or 'delay_max')
+    * __fields__: Informations for the table. List of: 'time',
+'outputrate-average', 'delay-average', 'accepted-flows', 'rejected-flows',
+'timeslot-with-qos', 'timeslot-without-qos'
