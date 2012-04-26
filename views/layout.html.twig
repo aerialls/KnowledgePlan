@@ -27,6 +27,13 @@
 
         <div class="container">
             <div class="content">
+                {% for key,messages in app.session.flashbag.all %}
+                    {% for message in messages %}
+                        <div class="alert-message {{ key }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
                 {% block content %}{% endblock %}
             </div>
 

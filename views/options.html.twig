@@ -1,11 +1,6 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    {% for key,message in app.session.flashes %}
-        <div class="alert-message {{ key }}">
-            <p>{{ message }}</p>
-        </div>
-    {% endfor %}
 
     <h1>Remove a simulation</h1>
 

@@ -79,13 +79,13 @@ $app->match('/options', function() use ($app) {
                 }
 
                 rename($newSimulation, $simulation);
-                $app['session']->setFlash('success', sprintf('The simulation output "%s" has been correctly updated.', $name));
+                $app['session']->getFlashBag()->set('success', sprintf('The simulation output "%s" has been correctly updated.', $name));
 
                 // Force creation of the cache file
                 $app['kp.simulation_manager']->get($name);
-
-                return $app->redirect($app['url_generator']->generate('options'));
             }
+
+            return $app->redirect($app['url_generator']->generate('options'));
         }
     }
 
