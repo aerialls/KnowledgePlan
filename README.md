@@ -66,10 +66,11 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
             'fields'      => array('time', 'knowledge-plan')
         ),
         'performance' => array(
-            'title'       => 'Performance evaluation',
-            'simulations' => array(),
-            'plots'       => array('points', 'delay_max'), // 'hlm', 'centroids', 'delay_max' or 'points'
-            'fields'      => array(
+            'title'               => 'Performance evaluation',
+            'simulations'         => array(), // Empty to all
+            'simulations-exclude' => array('knowledge-plan'),
+            'plots'               => array('points', 'delay_max'), // 'hlm', 'centroids', 'delay_max' or 'points'
+            'fields'              => array(
                 'time', 'outputrate-average', 'delay-average',
                 'accepted-flows', 'rejected-flows', 'timeslot-with-qos',
                 'timeslot-without-qos'
@@ -100,6 +101,8 @@ array). See `kp.options` for the list (it's the same)
 * __kp.experiences__: The list of all the experiences
     * __title__: The title of the experience (will be in the black title bar)
     * __simulations__: An array of simulations
+    * __simulations-exclude__: Each simulation in this array will be removed from
+the simulations array. It's usefull if you want display all the simulations without one.
     * __plots__: The list of plots to be displayed ('points', 'centroids', 'hlm'
 or 'delay_max')
     * __fields__: Informations for the table. List of: 'time',
