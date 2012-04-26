@@ -1,0 +1,111 @@
+{
+    "hash": "d7c10a6d115ff20aca350db39452b533",
+    "packages": [
+        {
+            "package": "doctrine/common",
+            "version": "2.2.x-dev",
+            "source-reference": "1e0aa60d109c630d19543d999f12e2852ef8f932"
+        },
+        {
+            "package": "pimple/pimple",
+            "version": "dev-master",
+            "source-reference": "2c7b104e6a5ca9207bd713892979882f1d310abc"
+        },
+        {
+            "package": "silex/silex",
+            "version": "dev-master",
+            "source-reference": "25abd1a8e9042143716232b8c7f6e545545c830b"
+        },
+        {
+            "package": "symfony/browser-kit",
+            "version": "dev-master",
+            "source-reference": "f03173e232da5d84eb799cad5d57354e6541b0f8",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/class-loader",
+            "version": "dev-master",
+            "source-reference": "4e509e34c7b4238762aa9ea2e24162a4c0444a14",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/css-selector",
+            "version": "dev-master",
+            "source-reference": "dd695aadd80d8e6e726a7a050535c04325cefa02",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/dom-crawler",
+            "version": "dev-master",
+            "source-reference": "69b857977d96e4c726be5524fa00370aef5e9b20",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "dev-master",
+            "source-reference": "b98d68d3b8513c62d35504570f09e9d3dc33d083",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/finder",
+            "version": "dev-master",
+            "source-reference": "5b8658e52eaf424fe943a5857e2404ce95c3b90e",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/form",
+            "version": "dev-master",
+            "source-reference": "7252c895e031eba3637f1393b7cb8d3ab6ac2bbc",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "dev-master",
+            "source-reference": "c42a11f51217244a1b57fa45bb2da5f1edcee010",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "dev-master",
+            "source-reference": "2a64d0557658af08d7119de07ad93318a50a4124",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/locale",
+            "version": "dev-master",
+            "source-reference": "3c237b59668070125b25a9269126805bbcb6635f",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/process",
+            "version": "dev-master",
+            "source-reference": "3f95a0126588f00d70e745c1ef96631fb10c3a8e",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "dev-master",
+            "source-reference": "49ea8e61fb6ce2cce74b3377a23a2141e091d7e8",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/twig-bridge",
+            "version": "dev-master",
+            "source-reference": "c7c5cf1e93d058772ce652d73d9b78990847cc1e",
+            "alias": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/validator",
+            "version": "dev-master",
+            "source-reference": "53ec97264f909d29ae01665e8345f8fb763b94f3"
+        },
+        {
+            "package": "twig/twig",
+            "version": "dev-master",
+            "source-reference": "75d97b4a275b90956df554fd7d8d7bc6e3d4ae73",
+            "alias": "1.8.9999999.9999999-dev"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": []
+}
