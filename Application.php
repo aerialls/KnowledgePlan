@@ -52,9 +52,9 @@ $app->match('/options', function() use ($app) {
             $newSimulation = $simulation.'_new';
 
             // Check the file mimetype
-            if ('text/plain' !== $file->getClientMimeType()) {
-                throw new \InvalidArgumentException('The file mimetype must be "text/plain".');
-            }
+//            if ('text/plain' !== $file->getClientMimeType()) {
+//                throw new \InvalidArgumentException('The file mimetype must be "text/plain".');
+//            }
 
             // Move the file to the correct folder
             $file->move(dirname($newSimulation), basename($newSimulation));
@@ -83,9 +83,6 @@ $app->match('/options', function() use ($app) {
 
                 // Force creation of the cache file
                 $app['kp.simulation_manager']->get($name);
-
-                // Reset form data
-                $form->setData(array('name' => ''));
             }
         }
     }
