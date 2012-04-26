@@ -83,6 +83,8 @@ $app->match('/options', function() use ($app) {
 
                 // Force creation of the cache file
                 $app['kp.simulation_manager']->get($name);
+
+                return $app->redirect($app['url_generator']->generate('options'));
             }
         }
     }
@@ -135,6 +137,6 @@ $app->get('/clear-cache', function() use ($app) {
    $app['kp.simulation_manager']->removeAll();
 
    return new Response('ok');
-})->bind('clear-cache');
+})->bind('clear_cache');
 
 return $app;
