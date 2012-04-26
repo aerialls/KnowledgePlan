@@ -72,6 +72,19 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
                     $options['simulations'] = $simulations;
                 }
 
+                // Remove exclude simulations
+                if (isset($options['simulations-exclude'])) {
+                    foreach ($options['simulations-exclude'] as $exclude) {
+                        if (false !== $pos = array_search($exclude, $options['simulations'])) {
+                            // Remove the simulation from the array
+                            unset($options['simulations'][$pos]);
+                        }
+                    }
+
+                    // Reindex the array
+                    $options['simulations'] = array_values($options['simulations']);
+                }
+
                 $experience = $app['kp.experience_builder']->create($name, $options);
                 $manager->add($experience);
             }

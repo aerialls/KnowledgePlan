@@ -47,10 +47,11 @@ $app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServicePro
             'fields'      => array('time', 'knowledge-plan')
         ),
         'performance' => array(
-            'title'       => 'Performance evaluation',
-            'simulations' => array(), // Empty array for all
-            'plots'       => array('points', 'delay_max'), // 'hlm', 'centroids', 'delay_max' or 'points'
-            'fields'      => array(
+            'title'               => 'Performance evaluation',
+            'simulations'         => array(), // Empty array for all
+            'simulations-exclude' => array('knowledge_plan'),
+            'plots'               => array('points', 'delay_max'), // 'hlm', 'centroids', 'delay_max' or 'points'
+            'fields'              => array(
                 'time', 'outputrate-average', 'delay-average',
                 'accepted-flows', 'rejected-flows', 'timeslot-with-qos',
                 'timeslot-without-qos'
