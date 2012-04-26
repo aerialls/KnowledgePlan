@@ -134,4 +134,10 @@ $app->get('/remove/{filename}', function($filename) use ($app) {
    return $app->redirect($app['url_generator']->generate('options'));
 })->bind('remove');
 
+$app->get('/clear-cache', function() use ($app) {
+   $app['kp.simulation_manager']->removeAll();
+
+   return new Response('ok');
+})->bind('remove');
+
 return $app;

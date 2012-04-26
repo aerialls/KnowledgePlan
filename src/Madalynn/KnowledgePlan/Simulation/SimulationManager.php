@@ -75,4 +75,12 @@ class SimulationManager
 
         $this->cache->remove($filename);
     }
+
+    /**
+     * Removes all the simulation from the cache
+     */
+    public function removeAll()
+    {
+        $this->cache->clear();
+    }
 }
