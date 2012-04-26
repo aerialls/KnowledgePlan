@@ -216,7 +216,8 @@ Player.prototype.displayPlot = function(name, values)
             min: simulation['options']['y_min'],
             max: simulation['options']['y_max'],
             label: simulation['options']['y_label']
-        }
+        },
+        legend: {position: 'nw'}
     });
 
     // Tooltip
