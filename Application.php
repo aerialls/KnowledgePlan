@@ -135,6 +135,6 @@ $app->get('/clear-cache', function() use ($app) {
    $app['kp.simulation_manager']->removeAll();
 
    return new Response('ok');
-})->bind('remove');
+})->bind('clear-cache');
 
 return $app;
