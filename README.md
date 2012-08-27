@@ -31,7 +31,6 @@ The website needs a virtualhost pointing to the `web` folder. For instance:
 All the configuration is done in the `bootstrap.php` in the `KnowledgePlanServiceProvider`.
 
 ```php
-// Knowledge Plan
 $app->register(new KnowledgePlanServiceProvider(), array(
     // Configuration goes here
 ));
@@ -92,6 +91,7 @@ $app->register(new KnowledgePlanServiceProvider(), array(
     <tr>
         <th>Key</th>
         <th>Description</th>
+        <th>Example</th>
     </tr>
     <tr>
         <td>x_min</td>
