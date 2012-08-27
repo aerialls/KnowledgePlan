@@ -149,7 +149,7 @@ class SimulationBuilder
         $lastTime = -1;
         $step = 0;
 
-        foreach($file as $line) {
+        foreach ($file as $line) {
             $line = str_replace(array("\r\n", "\n", "\r"), '', $line);
 
             // New event
@@ -208,7 +208,7 @@ class SimulationBuilder
                 // New delay max
                 $delayMax = substr($line, 11, 13 - strlen($line));
                 $this->options['delay_max'] = $delayMax;
-            } elseif(0 === strpos($line, 'refQueue')) {
+            } elseif (0 === strpos($line, 'refQueue')) {
                 // M/G/1 definition
                 $hlm   = array();
                 $parts = explode(' ', $line);
@@ -309,7 +309,7 @@ class SimulationBuilder
         $values = explode("\t", $line);
 
         $array = array();
-        foreach($values as $key => $value) {
+        foreach ($values as $key => $value) {
             // Time: at [0-9]+
             if (0 === $key) {
                 $array['time'] = substr($value, 3);

@@ -15,7 +15,6 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-
 $app->get('/', function() use ($app) {
     return $app['twig']->render('homepage.html.twig', array(
         'experiences' => $app['kp.experiences']

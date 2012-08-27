@@ -20,7 +20,7 @@ interface CacheInterface
      *
      * @return bool Whether the cache has a key.
      */
-    function has($key);
+    public function has($key);
 
     /**
      * Returns the value for a key.
@@ -29,7 +29,7 @@ interface CacheInterface
      *
      * @return mixed The value for a key.
      */
-    function get($key);
+    public function get($key);
 
     /**
      * Sets a value for a key.
@@ -37,17 +37,17 @@ interface CacheInterface
      * @param string $key   A unique key.
      * @param mixed  $value The value.
      */
-    function set($key, $value);
+    public function set($key, $value);
 
     /**
      * Removes a value from the cache.
      *
      * @param string $key A unique key.
      */
-    function remove($key);
+    public function remove($key);
 
     /**
      * Clears the cache.
      */
-    function clear();
+    public function clear();
 }

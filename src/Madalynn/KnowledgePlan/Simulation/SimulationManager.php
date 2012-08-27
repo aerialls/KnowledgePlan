@@ -12,7 +12,6 @@
 namespace Madalynn\KnowledgePlan\Simulation;
 
 use Madalynn\KnowledgePlan\Cache\CacheInterface;
-use Madalynn\KnowledgePlan\Loader\LoaderInterface;
 
 class SimulationManager
 {
