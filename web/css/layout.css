@@ -1,154 +1,154 @@
 html, body {
-    background-color: #eee;
+  background-color: #eee;
 }
 
 body {
-    padding-top: 40px;
+  padding-top: 40px;
 }
 
 .container > footer p {
-    text-align: center;
+  text-align: center;
 }
 
 .container {
-    width: 1060px;
+  width: 1060px;
 }
 
 .content {
-    background-color: #fff;
-    padding: 20px;
-    margin: 0 -20px;
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
-    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
-    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  background-color: #fff;
+  padding: 20px;
+  margin: 0 -20px;
+  -webkit-border-radius: 0 0 6px 6px;
+  -moz-border-radius: 0 0 6px 6px;
+  border-radius: 0 0 6px 6px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+  box-shadow: 0 1px 2px rgba(0,0,0,.15);
 }
 
 .page-header {
-    background-color: #f5f5f5;
-    padding: 20px 20px 10px;
-    margin: -20px -20px 20px;
+  background-color: #f5f5f5;
+  padding: 20px 20px 10px;
+  margin: -20px -20px 20px;
 }
 
 #range-div {
-    margin-right: 13px;
+  margin-right: 13px;
 }
 
 #range {
-    position: relative;
-    top: 6px;
-    width: 100%;
+  position: relative;
+  top: 6px;
+  width: 100%;
 }
 
 .chart {
-    height: 300px;
-    position: relative;
+  height: 300px;
+  position: relative;
 }
 
 #separator-controls {
-    height: 3px;
-    background-color: lightgrey;
-    margin: 20px;
+  height: 3px;
+  background-color: lightgrey;
+  margin: 20px;
 }
 
 .slider {
-    background-color: #e6e6e6;
-    height:9px;
-    position:relative;
-    cursor:pointer;
-    width: 100%;
-    float:left;
-    clear:right;
-    margin-top:15px;
-    -moz-box-shadow:inset 0 0 8px #000;
+  background-color: #e6e6e6;
+  height:9px;
+  position:relative;
+  cursor:pointer;
+  width: 100%;
+  float:left;
+  clear:right;
+  margin-top:15px;
+  -moz-box-shadow:inset 0 0 8px #000;
 }
 
 .progress {
-    height:9px;
-    background-color:#C5FF00;
-    display:none;
-    opacity:0.6;
+  height:9px;
+  background-color:#C5FF00;
+  display:none;
+  opacity:0.6;
 }
 
 .handle {
-    height:23px;
-    width:23px;
-    top:-9px;
-    position:absolute;
-    display:block;
-    margin-top:1px;
-    border:1px solid #000;
-    cursor:move;
-    background-color: black;
-    -moz-border-radius:14px;
-    -webkit-border-radius:14px;
+  height:23px;
+  width:23px;
+  top:-9px;
+  position:absolute;
+  display:block;
+  margin-top:1px;
+  border:1px solid #000;
+  cursor:move;
+  background-color: black;
+  -moz-border-radius:14px;
+  -webkit-border-radius:14px;
 }
 
 .range {
-    display: none;
+  display: none;
 }
 
 .color-red {
-    color: #cc0000;
+  color: #cc0000;
 }
 
 .color-green {
-    color: #006e2e;
+  color: #006e2e;
 }
 
 .informations td {
-    width: 60%;
+  width: 60%;
 }
 
 #loading {
-    margin: 10px 0;
-    font-size: 19px;
+  margin: 10px 0;
+  font-size: 19px;
 }
 
 #loading img {
-    position: relative;
-    top: 2px;
-    margin-right: 5px;
+  position: relative;
+  top: 2px;
+  margin-right: 5px;
 }
 
 .legend table {
-    width: inherit;
+  width: inherit;
 }
 
 .legend table td {
-    padding: 5px 2px;
-    border-top: none;
-    line-height: 15px;
+  padding: 5px 2px;
+  border-top: none;
+  line-height: 15px;
 }
 
 #tooltip {
-    font-size: 10px;
-    position: absolute;
-    z-index: 100000;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    background-color: #000;
-    color: #FFF;
-    padding: 3px 7px;
-    text-align: center;
-    opacity: 0.7;
+  font-size: 10px;
+  position: absolute;
+  z-index: 100000;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  background-color: #000;
+  color: #fff;
+  padding: 3px 7px;
+  text-align: center;
+  opacity: 0.7;
 }
 
 #template {
-    display: none;
+  display: none;
 }
 
 .informations tr {
-    display: none;
+  display: none;
 }
 
 .informations ul {
-    margin-left: 0 !important;
+  margin-left: 0 !important;
 }
 
 .informations li {
-    color: #404040;
+  color: #404040;
 }
