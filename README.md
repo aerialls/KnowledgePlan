@@ -48,12 +48,12 @@ $app->register(new KnowledgePlanServiceProvider(), array(
     <tr>
         <td>kp.cache_folder</td>
         <td>The folder to store simulation files (cached)</td>
-        <td>`__DIR__.'/cache'`</td>
+        <td>'cache/'</td>
     </tr>
     <tr>
         <td>kp.simulations_folder</td>
         <td>The folder where the output files are stored</td>
-        <td>`__DIR__.'/simulations`</td>
+        <td>'simulations/'</td>
     </tr>
     <tr>
         <td>kp.dry_run</td>
@@ -63,11 +63,11 @@ $app->register(new KnowledgePlanServiceProvider(), array(
             file to create the simulation and never call the cache, set this
             option to true. The cache will always be ignored.
         </td>
-        <td>`false`</td>
+        <td>false</td>
     </tr>
     <tr>
         <td>kp.options</td>
-        <td>Options for __ALL__ the plot</td>
+        <td>Options for all the plot</td>
         <td>See below for the list</td>
     </tr>
     <tr>
@@ -96,14 +96,17 @@ $app->register(new KnowledgePlanServiceProvider(), array(
     <tr>
         <td>x_min</td>
         <td></td>
+        <td>0</td>
     </tr>
     <tr>
         <td>x_max</td>
         <td></td>
+        <td>10</td>
     </tr>
     <tr>
         <td>x_name</td>
         <td>The name of the field in the output file</td>
+        <td>outputrate</td>
     </tr>
     <tr>
         <td>x_label</td>
@@ -111,19 +114,22 @@ $app->register(new KnowledgePlanServiceProvider(), array(
             The name of the label. If this field is left blank, the
             `x_name` field is using
         </td>
-        <td></td>
+        <td>Outpute rate (packet/ms)</td>
     </tr>
     <tr>
         <td>y_min</td>
         <td></td>
+        <td>0</td>
     </tr>
     <tr>
         <td>y_max</td>
         <td></td>
+        <td>10</td>
     </tr>
     <tr>
         <td>y_name</td>
         <td>The name of the field in the output file</td>
+        <td>delay</td>
     </tr>
     <tr>
         <td>y_label</td>
@@ -131,7 +137,7 @@ $app->register(new KnowledgePlanServiceProvider(), array(
             The name of the label. If this field is left blank, the
             `y_name` field is using
         </td>
-        <td></td>
+        <td>Delay (ms)</td>
     </tr>
 </table>
 
@@ -146,12 +152,12 @@ $app->register(new KnowledgePlanServiceProvider(), array(
     <tr>
         <td>title</td>
         <td>The title of the experience (will be in the black title bar)</td>
-        <td>`My experience`</td>
+        <td>My experience</td>
     </tr>
     <tr>
         <td>simulations</td>
         <td>An array of simulations. An empty array means all simulations</td>
-        <td>`array('poisson', 'other')`</td>
+        <td>array('poisson', 'other')</td>
     </tr>
     <tr>
         <td>simulations-exclude</td>
@@ -160,7 +166,7 @@ $app->register(new KnowledgePlanServiceProvider(), array(
             array. It's usefull if you want display all the simulations without
             one.
         </td>
-        <td>`array('knowledge_plan')`</td>
+        <td>array('knowledge_plan')</td>
     </tr>
     <tr>
         <td>plots</td>
@@ -168,7 +174,7 @@ $app->register(new KnowledgePlanServiceProvider(), array(
            The list of plots to be displayed. ('points', 'centroids', 'hlm'
             or 'delay_max')
         </td>
-        <td>`array('points', 'hlm')`</td>
+        <td>array('points', 'hlm')</td>
     </tr>
     <tr>
         <td>fields</td>
@@ -177,7 +183,7 @@ $app->register(new KnowledgePlanServiceProvider(), array(
             'delay-average', 'accepted-flows', 'rejected-flows',
             'timeslot-with-qos', 'timeslot-without-qos'
         </td>
-        <td>`array('time')`</td>
+        <td>array('time')</td>
     </tr>
 </table>
 
