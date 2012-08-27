@@ -9,13 +9,12 @@
  * file that was distributed with this source code.
  */
 
-require 'vendor/.composer/autoload.php';
+require 'vendor/autoload.php';
 
 $app = new Silex\Application();
 
 $app['debug'] = true;
 
-$app->register(new Silex\Provider\SymfonyBridgesServiceProvider());
 $app->register(new Silex\Provider\FormServiceProvider());
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 $app->register(new Silex\Provider\SessionServiceProvider());

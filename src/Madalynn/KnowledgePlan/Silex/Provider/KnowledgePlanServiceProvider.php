@@ -11,28 +11,28 @@
 
 namespace Madalynn\KnowledgePlan\Silex\Provider;
 
-use Silex\Application;
-use Silex\ServiceProviderInterface;
-
 use Madalynn\KnowledgePlan\Experience\ExperienceBuilder;
 use Madalynn\KnowledgePlan\Experience\ExperienceManager;
 use Madalynn\KnowledgePlan\Simulation\SimulationManager;
 use Madalynn\KnowledgePlan\Simulation\SimulationBuilder;
 use Madalynn\KnowledgePlan\Cache\FilesystemCache;
 use Madalynn\KnowledgePlan\Cache\EmptyCache;
-
+use Silex\Application;
+use Silex\ServiceProviderInterface;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * KnowledgePlan service provider
+ *
+ * @author Julien Brochet <mewt@madalynn.eu>
+ */
 class KnowledgePlanServiceProvider implements ServiceProviderInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function register(Application $app)
     {
-        foreach (array($app['kp.cache_folder'], $app['kp.simulations_folder']) as $dir) {
-            if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
-            }
-        }
-
         $app['kp.simulation_manager'] = $app->share(function() use ($app) {
             // If the application is in dry run mode
             // Then the cache can't be used to store
@@ -91,5 +91,17 @@ class KnowledgePlanServiceProvider implements ServiceProviderInterface
         $app['kp.experience_builder'] = $app->share(function() use ($app) {
             return new ExperienceBuilder($app['kp.simulation_manager']);
         });
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function boot(Application $app)
+    {
+        foreach (array($app['kp.cache_folder'], $app['kp.simulations_folder']) as $dir) {
+            if (!file_exists($dir)) {
+                @mkdir($dir, 0777, true);
+            }
+        }
     }
 }
