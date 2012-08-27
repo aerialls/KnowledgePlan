@@ -11,6 +11,8 @@
 
 require 'vendor/autoload.php';
 
+use Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider;
+
 $app = new Silex\Application();
 
 $app['debug'] = true;
@@ -26,7 +28,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 ));
 
 // Knowledge Plan
-$app->register(new Madalynn\KnowledgePlan\Silex\Provider\KnowledgePlanServiceProvider(), array(
+$app->register(new KnowledgePlanServiceProvider(), array(
     'kp.cache_folder'        => __DIR__.'/cache',
     'kp.simulations_folder'  => __DIR__.'/simulations',
     'kp.options'             => array(
