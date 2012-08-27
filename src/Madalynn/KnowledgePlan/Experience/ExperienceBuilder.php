@@ -29,10 +29,6 @@ class ExperienceBuilder
             'fields' => array('time')
         ), $options);
 
-        if (!isset($options['simulations']) || empty($options['simulations'])) {
-            throw new \InvalidArgumentException('An Experience must have at least one simulation.');
-        }
-
         $simulations = array();
         foreach ($options['simulations'] as $nameSimulation) {
             try {

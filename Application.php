@@ -13,7 +13,8 @@ require_once 'bootstrap.php';
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
-use Madalynn\KnowledgePlan\Symfony\GzipStreamedResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 
 $app->get('/', function() use ($app) {
     return $app['twig']->render('homepage.html.twig', array(
@@ -100,10 +101,8 @@ $app->get('/js/experience-{name}.js', function($name) use ($app) {
         return $app->abort(404, sprintf('The experience "%s does not exist.', $name));
     }
 
-    // We use a Gzip for the content encoding to reduce
-    // the size of the file. Futhermore, the Streamed response
-    // speed up the result
-    $response = new GzipStreamedResponse(function() use ($app, $name) {
+    // The streamed response speed up the result
+    $response = new StreamedResponse(function() use ($app, $name) {
         echo $app['twig']->render('experience.js.twig', array(
         'experience' => $app['kp.experience_manager']->get($name)
         ));

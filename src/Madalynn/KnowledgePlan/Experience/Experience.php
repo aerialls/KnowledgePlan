@@ -13,7 +13,6 @@ namespace Madalynn\KnowledgePlan\Experience;
 
 use Madalynn\KnowledgePlan\Simulation\SimulationManager;
 use Madalynn\KnowledgePlan\Simulation\Simulation;
-use Madalynn\KnowledgePlan\Utils\MathUtils;
 
 class Experience
 {
@@ -40,10 +39,6 @@ class Experience
 
     public function __construct($name, array $simulations, array $options = array())
     {
-        if (0 === count($simulations)) {
-            throw new \InvalidArgumentException('An experience must have at least one simulation.');
-        }
-
         $this->simulations = array();
         $this->step        = 1;
         $this->minTime     = INF;

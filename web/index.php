@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
-$app = require_once __DIR__.'/../Application.php';
+@ini_set('memory_limit', '512M');
 
+$app = require_once __DIR__.'/../Application.php';
 $app->run();
