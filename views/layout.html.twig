@@ -2,13 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Knowledge Plan</title>
+        <title>Traffic-Aware FAC Demo</title>
         <meta name="description" content="">
         <meta name="author" content="Julien Brochet">
 
         <!--[if lt IE 9]>
-        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <script type="text/javascript" src="/js/flot/excanvas.min.js"></script>
+            <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+            <script type="text/javascript" src="/js/flot/excanvas.min.js"></script>
         <![endif]-->
 
         {% block javascripts %}{% endblock %}
@@ -20,7 +20,7 @@
         <div class="topbar">
             <div class="fill">
                 <div class="container">
-                    <a class="brand" href="{{ path('homepage') }}">Knowledge Plan</a>
+                    <a class="brand" href="{{ path('homepage') }}">Knowledge-Based Admission Control: A Real-Time Performance Analysis</a>
                 </div>
             </div>
         </div>
@@ -35,6 +35,18 @@
                     {% endfor %}
                 {% endfor %}
                 {% block content %}{% endblock %}
+            </div>
+
+            <div class="row footer">
+                <div class="span inria">
+                    <img src="/images/inria.png" />
+                </div>
+                <div class="span subtitle">
+                    LCN 2012 - Clearwater, Florida, USA, Oct. 2012.
+                </div>
+                <div class="span alcatel">
+                    <img src="/images/alcatel_lucent.png" />
+                </div>
             </div>
 
         </div> <!-- /container -->

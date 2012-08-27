@@ -23,8 +23,8 @@ const PLAYER_PAUSE = 1;
 
 function Player()
 {
-    this.state    = undefined;
-    this.api      = undefined;
+    this.state = undefined;
+    this.api   = undefined;
 }
 
 /**
@@ -172,8 +172,8 @@ Player.prototype.displayPlot = function(name, values)
         plots.push({
             data: values['points'],
             points: {show: true},
-            color: '#ffd658',
-            label: 'Measuring points'
+            color: '#ffa500',
+            label: 'measuring points'
         });
     }
 
@@ -182,7 +182,7 @@ Player.prototype.displayPlot = function(name, values)
             data: values['centroids'],
             points: {show: true},
             color: 8,
-            label: 'Centroids'
+            label: 'average point'
         });
     }
 
@@ -190,9 +190,9 @@ Player.prototype.displayPlot = function(name, values)
         plots.push({
             data: [[simulation['options']['x_min'], delayMax], [simulation['options']['x_max'], delayMax]],
             lines: {show: true},
-            color: '#c7c7c7',
+            color: '#ff0000',
             shadowSize: 0,
-            label: 'Target QoS'
+            label: 'target delay'
         });
     }
 
@@ -201,13 +201,14 @@ Player.prototype.displayPlot = function(name, values)
             data: values['hlm'],
             lines: {show: true},
             color: 7,
-            label: 'M/G/1 Queue'
+            label: 'queueing model'
         });
     }
 
     $.plot($('#simul-' + name + ' .chart'), plots, {
         grid:  {hoverable: true},
         xaxis: {
+            style: { color: '#FF0000' },
             min: simulation['options']['x_min'],
             max: simulation['options']['x_max'],
             label: simulation['options']['x_label']

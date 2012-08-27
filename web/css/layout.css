@@ -1,17 +1,21 @@
 html, body {
-  background-color: #eee;
+  background-color: #fff;
 }
 
 body {
-  padding-top: 40px;
+  padding-top: 80px;
 }
 
 .container > footer p {
   text-align: center;
 }
 
-.container {
-  width: 1060px;
+.container, .topbar .container {
+  width: 1360px;
+}
+
+.topbar .container {
+  text-align: center;
 }
 
 .content {
@@ -151,4 +155,30 @@ body {
 
 .informations li {
   color: #404040;
+}
+
+.footer {
+  margin-top: 20px;
+}
+
+.footer .inria {
+  text-align: left;
+  width: 280px;
+}
+
+.footer .subtitle {
+  width: 700px;
+  padding: 19px 30px;
+  font-weight: bold;
+  font-size: 24px;
+  text-align: center;
+}
+
+.footer .alcatel {
+  text-align: right;
+  width: 280px;
+}
+
+.informations tr {
+  font-size: 16px !important;
 }

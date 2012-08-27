@@ -42,13 +42,13 @@ $app->register(new KnowledgePlanServiceProvider(), array(
     ),
     'kp.experiences' => array(
         'knowledgeplan' => array(
-            'title'       => 'Modelling the Knowledge Plan',
+            'title'       => 'Knowledge Plane building',
             'simulations' => array('knowledge_plan'),
             'plots'       => array('centroids', 'points', 'hlm'), // 'hlm', 'centroids', 'delay_max' or 'points'
             'fields'      => array('time', 'knowledge-plan')
         ),
         'performance' => array(
-            'title'               => 'Performance evaluation',
+            'title'               => 'Performance results',
             'simulations'         => array(), // Empty array for all
             'simulations-exclude' => array('knowledge_plan'),
             'plots'               => array('points', 'delay_max'), // 'hlm', 'centroids', 'delay_max' or 'points'
