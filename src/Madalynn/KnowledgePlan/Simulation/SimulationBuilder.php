@@ -66,9 +66,9 @@ class SimulationBuilder
     /**
      * Informations about the last HLM Queue
      *
-     * @var array $knowledgePlan
+     * @var array $knowledgePlane
      */
-    protected $knowledgePlan;
+    protected $knowledgePlane;
 
     /**
      * Constructor
@@ -123,7 +123,7 @@ class SimulationBuilder
             'timeslot_without_qos' => 0,
         );
 
-        $this->knowledgePlan = array(
+        $this->knowledgePlane = array(
             'type' => 'Unknown',
             'mu'   => 0,
             'cv'   => 0,
@@ -226,7 +226,7 @@ class SimulationBuilder
                     $hlm['off'] = $parts[7];
                 }
 
-                $this->knowledgePlan = $hlm;
+                $this->knowledgePlane = $hlm;
             }
         }
 
@@ -415,7 +415,7 @@ class SimulationBuilder
             'delay_average'        => $this->averages['delay'],
             'timeslot_with_qos'    => $this->averages['timeslot_with_qos'],
             'timeslot_without_qos' => $this->averages['timeslot_without_qos'],
-            'knowledge_plan'       => $this->knowledgePlan
+            'knowledge_plane'       => $this->knowledgePlane
         );
 
         // Merge with the default options

@@ -36,21 +36,21 @@ $app->register(new KnowledgePlanServiceProvider(), array(
         'y_label' => 'Delay (ms)'
     ),
     'kp.simulation_options' => array(
-        'knowledge_plan' => array(
+        'knowledge_plane' => array(
             'x_max' => 8
         )
     ),
     'kp.experiences' => array(
-        'knowledgeplan' => array(
+        'knowledgeplane' => array(
             'title'       => 'Knowledge Plane building',
-            'simulations' => array('knowledge_plan'),
+            'simulations' => array('knowledge_plane'),
             'plots'       => array('centroids', 'points', 'hlm'), // 'hlm', 'centroids', 'delay_max' or 'points'
-            'fields'      => array('time', 'knowledge-plan')
+            'fields'      => array('time', 'knowledge-plane')
         ),
         'performance' => array(
             'title'               => 'Performance results',
             'simulations'         => array(), // Empty array for all
-            'simulations-exclude' => array('knowledge_plan'),
+            'simulations-exclude' => array('knowledge_plane'),
             'plots'               => array('points', 'delay_max'), // 'hlm', 'centroids', 'delay_max' or 'points'
             'fields'              => array(
                 'time', 'outputrate-average', 'delay-average',

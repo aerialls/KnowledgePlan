@@ -185,17 +185,17 @@ Player.prototype.displayInformations = function(name, values)
     $('#simul-' + name + ' .label-timeslot-with-qos').html(truncate(values['timeslot_with_qos'], 3, 0) + ' %');
     $('#simul-' + name + ' .label-timeslot-without-qos').html(truncate(values['timeslot_without_qos'], 3, 0) + ' %');
 
-    // Knowledge Plan
-    var kp = values['knowledge_plan'];
-    $('#simul-' + name + ' .label-knowledge-plan-type').html(kp['type']);
-    $('#simul-' + name + ' .label-knowledge-plan-mu').html(truncate(kp['mu'], 2, 3));
-    $('#simul-' + name + ' .label-knowledge-plan-cv').html(truncate(kp['cv'], 2, 3));
-    $('#simul-' + name + ' .label-knowledge-plan-off').html(truncate(kp['off'], 2, 3));
+    // Knowledge Plane
+    var kp = values['knowledge_plane'];
+    $('#simul-' + name + ' .label-knowledge-plane-type').html(kp['type']);
+    $('#simul-' + name + ' .label-knowledge-plane-mu').html(truncate(kp['mu'], 2, 3));
+    $('#simul-' + name + ' .label-knowledge-plane-cv').html(truncate(kp['cv'], 2, 3));
+    $('#simul-' + name + ' .label-knowledge-plane-off').html(truncate(kp['off'], 2, 3));
 
     if (kp['k'] == null) {
-        $('#simul-' + name + ' .label-knowledge-plan-k').parent().hide();
+        $('#simul-' + name + ' .label-knowledge-plane-k').parent().hide();
     } else {
-        $('#simul-' + name + ' .label-knowledge-plan-k').html(kp['k']).parent().show();
+        $('#simul-' + name + ' .label-knowledge-plane-k').html(kp['k']).parent().show();
     }
 
 
