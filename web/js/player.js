@@ -223,7 +223,7 @@ Player.prototype.displayPlot = function(name, values)
             data: values['points'],
             points: {show: true},
             color: '#ffa500',
-            label: 'measuring points'
+            label: 'measurement points'
         });
     }
 
@@ -268,7 +268,11 @@ Player.prototype.displayPlot = function(name, values)
             max: simulation['options']['y_max'],
             label: simulation['options']['y_label']
         },
-        legend: {position: 'nw'}
+        legend: {position: 'nw'},
+                    font: {
+                size: 55,
+                weight: "bold"
+            }
     });
 
     // Tooltip

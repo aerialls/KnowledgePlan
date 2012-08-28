@@ -1,5 +1,4 @@
-/simulations/*
-/cache/*
+cache
 
 # SCM files
 .arch-params
