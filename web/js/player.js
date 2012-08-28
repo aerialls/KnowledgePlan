@@ -92,7 +92,13 @@ Player.prototype.initialize = function()
                       .attr('data-id', i)
                       .appendTo('#experience');
 
-        $('#simul-' + name + ' .title').html(name.replace('_', ' '));
+        var displayName = name.replace('_', ' ');
+        if (displayName.indexOf(' ') == -1) {
+            // The display name has no space, so uppercase
+            displayName = displayName.toUpperCase();
+        }
+
+        $('#simul-' + name + ' .simulation-name').html(displayName);
     }
 
     // Show fields
