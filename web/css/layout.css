@@ -186,3 +186,7 @@ body {
 .simulation-name {
   text-transform: capitalize;
 }
+
+.chart {
+  font-size: 18px;
+}
