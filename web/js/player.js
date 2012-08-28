@@ -18,6 +18,50 @@ function oc(a)
     return o;
 }
 
+function truncate(real,space_integer,nb_decimals)
+{
+    var m = 1;
+    var integerpart = Math.floor(real);
+    var push_decimals = '';
+    var push_intergerpart = '';
+
+    for (var i = 0 ; i < nb_decimals ; i++) {
+        m = m * 10;
+    }
+
+    var decimals = Math.floor((real - integerpart) * m);
+
+    for (i = 1 ; i < nb_decimals ; i++) {
+        m = m / 10;
+        if (decimals < m) {
+            push_decimals = push_decimals +'0';
+        }
+    }
+
+    m = 1;
+    space_integer = space_integer - 1;
+
+    for (i = 0 ; i < space_integer ; i++) {
+        m = m * 10;
+    }
+
+    for (i = 0 ; i < space_integer ; i++) {
+        if (integerpart < m) {
+            //push_intergerpart = push_intergerpart + '&nbsp;&nbsp;';
+        }
+
+        m = m / 10;
+    }
+
+    var tobewritten = push_intergerpart + integerpart;
+
+    if (nb_decimals > 0) {
+        tobewritten = tobewritten + '.' + push_decimals + decimals;
+    }
+
+    return tobewritten;
+}
+
 const PLAYER_PLAY = 0;
 const PLAYER_PAUSE = 1;
 
@@ -133,20 +177,20 @@ Player.prototype.forward = function()
  */
 Player.prototype.displayInformations = function(name, values)
 {
-    $('#simul-' + name + ' .label-time').html(values['time'] + ' sec');
-    $('#simul-' + name + ' .label-accepted-flows').html(values['flows_accepted']);
-    $('#simul-' + name + ' .label-rejected-flows').html(values['flows_rejected']);
-    $('#simul-' + name + ' .label-delay-average').html(values['delay_average'] + ' ms');
-    $('#simul-' + name + ' .label-outputrate-average').html(values['outputrate_average'] + ' packet/ms');
-    $('#simul-' + name + ' .label-timeslot-with-qos').html(values['timeslot_with_qos'] + ' %');
-    $('#simul-' + name + ' .label-timeslot-without-qos').html(values['timeslot_without_qos'] + ' %');
+    $('#simul-' + name + ' .label-time').html(truncate(values['time'], 3, 1) + ' sec');
+    $('#simul-' + name + ' .label-accepted-flows').html(truncate(values['flows_accepted'], 3, 0));
+    $('#simul-' + name + ' .label-rejected-flows').html(truncate(values['flows_rejected'], 3, 0));
+    $('#simul-' + name + ' .label-delay-average').html(truncate(values['delay_average'], 3, 3) + ' ms');
+    $('#simul-' + name + ' .label-outputrate-average').html(truncate(values['outputrate_average'], 3, 2) + ' packet/ms');
+    $('#simul-' + name + ' .label-timeslot-with-qos').html(truncate(values['timeslot_with_qos'], 3, 0) + ' %');
+    $('#simul-' + name + ' .label-timeslot-without-qos').html(truncate(values['timeslot_without_qos'], 3, 0) + ' %');
 
     // Knowledge Plan
     var kp = values['knowledge_plan'];
     $('#simul-' + name + ' .label-knowledge-plan-type').html(kp['type']);
-    $('#simul-' + name + ' .label-knowledge-plan-mu').html(kp['mu']);
-    $('#simul-' + name + ' .label-knowledge-plan-cv').html(kp['cv']);
-    $('#simul-' + name + ' .label-knowledge-plan-off').html(kp['off']);
+    $('#simul-' + name + ' .label-knowledge-plan-mu').html(truncate(kp['mu'], 2, 3));
+    $('#simul-' + name + ' .label-knowledge-plan-cv').html(truncate(kp['cv'], 2, 3));
+    $('#simul-' + name + ' .label-knowledge-plan-off').html(truncate(kp['off'], 2, 3));
 
     if (kp['k'] == null) {
         $('#simul-' + name + ' .label-knowledge-plan-k').parent().hide();
